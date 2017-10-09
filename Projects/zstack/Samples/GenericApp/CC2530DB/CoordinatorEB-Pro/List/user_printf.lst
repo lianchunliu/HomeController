@@ -1,0 +1,1446 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         06/Oct/2017  23:49:08 #
+# Copyright 2004-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Core               =  plain                                              #
+#    Code model         =  banked                                             #
+#    Data model         =  large                                              #
+#    Calling convention =  xdata reentrant                                    #
+#    Constant location  =  data_rom                                           #
+#    Dptr setup         =  1,16                                               #
+#    Source file        =  C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\Source\user_printf.c                     #
+#    Command line       =  -f C:\workspace\ZStack-UART\Projects\zstack\Sample #
+#                          s\GenericApp\CC2530DB\..\..\..\Tools\CC2530DB\f8wC #
+#                          oord.cfg (-DCPU32MHZ -DROOT=__near_func            #
+#                          -DMAC_CFG_APP_PENDING_QUEUE=TRUE                   #
+#                          -DZDO_COORDINATOR -DRTR_NWK -DNV_RESTORE           #
+#                          -DBLINK_LEDS) -f C:\workspace\ZStack-UART\Projects #
+#                          \zstack\Samples\GenericApp\CC2530DB\..\..\..\Tools #
+#                          \CC2530DB\f8wConfig.cfg (-DSECURE=0                #
+#                          -DZG_SECURE_DYNAMIC=0 -DREFLECTOR                  #
+#                          -DDEFAULT_CHANLIST=0x00004000                      #
+#                          -DZDAPP_CONFIG_PAN_ID=0xFFFF                       #
+#                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_MA #
+#                          SK=0x007F -DBEACON_REQUEST_DELAY=100               #
+#                          -DBEACON_REQ_DELAY_MASK=0x00FF                     #
+#                          -DROUTE_EXPIRY_TIME=30 -DAPSC_ACK_WAIT_DURATION_PO #
+#                          LLED=3000 -DNWK_INDIRECT_MSG_TIMEOUT=7             #
+#                          -DMAX_RREQ_ENTRIES=8 -DAPSC_MAX_FRAME_RETRIES=3    #
+#                          -DNWK_MAX_DATA_RETRIES=2                           #
+#                          -DMAX_POLL_FAILURE_RETRIES=2 -DMAX_BCAST=9         #
+#                          -DAPS_MAX_GROUPS=16 -DMAX_RTG_ENTRIES=40           #
+#                          -DNWK_MAX_BINDING_ENTRIES=4                        #
+#                          -DMAX_BINDING_CLUSTER_IDS=4 "-DDEFAULT_KEY={0x01,  #
+#                          0x03, 0x05, 0x07, 0x09, 0x0B, 0x0D, 0x0F, 0x00,    #
+#                          0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0D}"         #
+#                          -DMAC_MAX_FRAME_SIZE=116 "-DCONST=const __code"    #
+#                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
+#                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
+#                          -DRESPONSE_POLL_RATE=100) -DREJOIN_POLL_RATE=440   #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\Source\user_printf.c -D ZIGBEEPRO -D     #
+#                          NV_RESTORE -D ZTOOL_P1 -D xMT_TASK -D              #
+#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -D                    #
+#                          LCD_SUPPORTED=DEBUG -lC C:\workspace\ZStack-UART\P #
+#                          rojects\zstack\Samples\GenericApp\CC2530DB\Coordin #
+#                          atorEB-Pro\List\ -lA C:\workspace\ZStack-UART\Proj #
+#                          ects\zstack\Samples\GenericApp\CC2530DB\Coordinato #
+#                          rEB-Pro\List\ --diag_suppress Pe001,Pa010 -o       #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\CoordinatorEB-Pro\Obj\ -e       #
+#                          --debug --core=plain --dptr=16,1                   #
+#                          --data_model=large --code_model=banked             #
+#                          --calling_convention=xdata_reentrant               #
+#                          --place_constants=data_rom --nr_virtual_regs 16    #
+#                          -I C:\workspace\ZStack-UART\Projects\zstack\Sample #
+#                          s\GenericApp\CC2530DB\ -I                          #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\SOURCE\ -I                   #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\ZMAIN\TI2530DB\ -I     #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\MT\   #
+#                          -I C:\workspace\ZStack-UART\Projects\zstack\Sample #
+#                          s\GenericApp\CC2530DB\..\..\..\..\..\COMPONENTS\HA #
+#                          L\INCLUDE\ -I C:\workspace\ZStack-UART\Projects\zs #
+#                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\CO #
+#                          MPONENTS\HAL\TARGET\CC2530EB\ -I                   #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\OSAL\ #
+#                          MCU\CCSOC\ -I C:\workspace\ZStack-UART\Projects\zs #
+#                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\CO #
+#                          MPONENTS\OSAL\INCLUDE\ -I                          #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\STACK #
+#                          \AF\ -I C:\workspace\ZStack-UART\Projects\zstack\S #
+#                          amples\GenericApp\CC2530DB\..\..\..\..\..\COMPONEN #
+#                          TS\STACK\NWK\ -I C:\workspace\ZStack-UART\Projects #
+#                          \zstack\Samples\GenericApp\CC2530DB\..\..\..\..\.. #
+#                          \COMPONENTS\STACK\SEC\ -I                          #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\STACK #
+#                          \SAPI\ -I C:\workspace\ZStack-UART\Projects\zstack #
+#                          \Samples\GenericApp\CC2530DB\..\..\..\..\..\COMPON #
+#                          ENTS\STACK\SYS\ -I C:\workspace\ZStack-UART\Projec #
+#                          ts\zstack\Samples\GenericApp\CC2530DB\..\..\..\..\ #
+#                          ..\COMPONENTS\STACK\ZDO\ -I                        #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\ZMAC\ #
+#                          F8W\ -I C:\workspace\ZStack-UART\Projects\zstack\S #
+#                          amples\GenericApp\CC2530DB\..\..\..\..\..\COMPONEN #
+#                          TS\ZMAC\ -I C:\workspace\ZStack-UART\Projects\zsta #
+#                          ck\Samples\GenericApp\CC2530DB\..\..\..\..\..\COMP #
+#                          ONENTS\SERVICES\SADDR\ -I                          #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\SERVI #
+#                          CES\SDATA\ -I C:\workspace\ZStack-UART\Projects\zs #
+#                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\CO #
+#                          MPONENTS\MAC\INCLUDE\ -I                           #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\MAC\H #
+#                          IGH_LEVEL\ -I C:\workspace\ZStack-UART\Projects\zs #
+#                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\CO #
+#                          MPONENTS\MAC\LOW_LEVEL\srf04\ -I                   #
+#                          C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\MAC\L #
+#                          OW_LEVEL\srf04\SINGLE_CHIP\ -Ohz                   #
+#                          --require_prototypes                               #
+#    List file          =  C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\CoordinatorEB-Pro\List\user_pri #
+#                          ntf.lst                                            #
+#    Object file        =  C:\workspace\ZStack-UART\Projects\zstack\Samples\G #
+#                          enericApp\CC2530DB\CoordinatorEB-Pro\Obj\user_prin #
+#                          tf.r51                                             #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\workspace\ZStack-UART\Projects\zstack\Samples\GenericApp\Source\user_printf.c
+      1          /*
+      2          	Copyright 2001, 2002 Georges Menie (www.menie.org)
+      3          	stdarg version contributed by Christian Ettinger
+      4          
+      5              This program is free software; you can redistribute it and/or modify
+      6              it under the terms of the GNU Lesser General Public License as published by
+      7              the Free Software Foundation; either version 2 of the License, or
+      8              (at your option) any later version.
+      9          
+     10              This program is distributed in the hope that it will be useful,
+     11              but WITHOUT ANY WARRANTY; without even the implied warranty of
+     12              MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     13              GNU Lesser General Public License for more details.
+     14          
+     15              You should have received a copy of the GNU Lesser General Public License
+     16              along with this program; if not, write to the Free Software
+     17              Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+     18          */
+     19          
+     20          /*
+     21          	putchar is the only external dependency for this file,
+     22          	if you have a working putchar, leave it commented out.
+     23          	If not, uncomment the define below and
+     24          	replace outbyte(c) by your own function call.
+     25          
+     26          #define putchar(c) outbyte(c)
+     27          */
+     28          
+     29          #include "stdarg.h"
+     30          #include "user_printf.h"
+     31          #include "hal_uart.h"
+     32          
+     33          void putchar(char c);
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     34          void putchar(char c){
+   \                     putchar:
+   \   000000   C082         PUSH    DPL
+   \   000002   C083         PUSH    DPH
+   \   000004                ; Saved register size: 2
+   \   000004                ; Auto size: 1
+   \   000004   74FF         MOV     A,#-0x1
+   \   000006   12....       LCALL   ?ALLOC_XSTACK8
+   \   000009   E9           MOV     A,R1
+   \   00000A   85..82       MOV     DPL,?XSP + 0
+   \   00000D   85..83       MOV     DPH,?XSP + 1
+   \   000010   F0           MOVX    @DPTR,A
+     35            HalUARTWrite(HAL_UART_PORT_0,(uint8*)&c,1);
+   \   000011                ; Setup parameters for call to function HalUARTWrite
+   \   000011   7C01         MOV     R4,#0x1
+   \   000013   7D00         MOV     R5,#0x0
+   \   000015   AA82         MOV     R2,DPL
+   \   000017   AB83         MOV     R3,DPH
+   \   000019   7900         MOV     R1,#0x0
+   \   00001B   12....       LCALL   ??HalUARTWrite?relay
+     36          }
+   \   00001E   7401         MOV     A,#0x1
+   \   000020   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000023                REQUIRE ?Subroutine0
+   \   000023                ; // Fall through to label ?Subroutine0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine0:
+   \   000000   D083         POP     DPH
+   \   000002   D082         POP     DPL
+   \   000004   02....       LJMP    ?BRET
+     37          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     38          static void printchar(char **str, int c)
+   \                     printchar:
+     39          {
+   \   000000   C082         PUSH    DPL
+   \   000002   C083         PUSH    DPH
+   \   000004                ; Saved register size: 2
+   \   000004                ; Auto size: 0
+     40          	extern void putchar(char c);
+     41          	
+     42          	if (str) {
+   \   000004   EA           MOV     A,R2
+   \   000005   4B           ORL     A,R3
+   \   000006   6021         JZ      ??printchar_0
+     43          		**str = c;
+   \   000008   8A82         MOV     DPL,R2
+   \   00000A   8B83         MOV     DPH,R3
+   \   00000C   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_9:
+   \   00000F   EC           MOV     A,R4
+   \   000010   F0           MOVX    @DPTR,A
+     44          		++(*str);
+   \   000011   8A82         MOV     DPL,R2
+   \   000013   8B83         MOV     DPH,R3
+   \   000015   E0           MOVX    A,@DPTR
+   \   000016   2401         ADD     A,#0x1
+   \   000018   F8           MOV     R0,A
+   \   000019   A3           INC     DPTR
+   \   00001A   E0           MOVX    A,@DPTR
+   \   00001B   3400         ADDC    A,#0x0
+   \   00001D   F9           MOV     R1,A
+   \   00001E   8A82         MOV     DPL,R2
+   \   000020   8B83         MOV     DPH,R3
+   \   000022   E8           MOV     A,R0
+   \   000023   F0           MOVX    @DPTR,A
+   \   000024   A3           INC     DPTR
+   \   000025   E9           MOV     A,R1
+   \   000026   F0           MOVX    @DPTR,A
+   \   000027   8005         SJMP    ??printchar_1
+     45          	}
+     46          	else (void)putchar((char)c);
+   \                     ??printchar_0:
+   \   000029                ; Setup parameters for call to function putchar
+   \   000029   EC           MOV     A,R4
+   \   00002A   F9           MOV     R1,A
+   \   00002B   12....       LCALL   ??putchar?relay
+     47          }
+   \                     ??printchar_1:
+   \   00002E   80..         SJMP    ?Subroutine0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine8:
+   \   000000   E0           MOVX    A,@DPTR
+   \   000001   F8           MOV     R0,A
+   \   000002   A3           INC     DPTR
+   \   000003   E0           MOVX    A,@DPTR
+   \   000004   F583         MOV     DPH,A
+   \   000006   8882         MOV     DPL,R0
+   \   000008   22           RET
+     48          
+     49          #define PAD_RIGHT 1
+     50          #define PAD_ZERO 2
+     51          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     52          static int prints(char **out, const char *string, int width, int pad)
+   \                     prints:
+     53          {
+   \   000000   74EE         MOV     A,#-0x12
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 18
+   \   000005                ; Auto size: 0
+   \   000005   8A..         MOV     ?V0 + 6,R2
+   \   000007   8B..         MOV     ?V0 + 7,R3
+   \   000009   8C..         MOV     ?V0 + 2,R4
+   \   00000B   8D..         MOV     ?V0 + 3,R5
+   \   00000D   7412         MOV     A,#0x12
+   \   00000F   12....       LCALL   ?XSTACK_DISP0_8
+   \   000012   E0           MOVX    A,@DPTR
+   \   000013   FE           MOV     R6,A
+   \   000014   A3           INC     DPTR
+   \   000015   E0           MOVX    A,@DPTR
+   \   000016   FF           MOV     R7,A
+   \   000017   7414         MOV     A,#0x14
+   \   000019   12....       LCALL   ?XSTACK_DISP0_8
+   \   00001C   E0           MOVX    A,@DPTR
+   \   00001D   F8           MOV     R0,A
+     54          	register int pc = 0, padchar = ' ';
+   \   00001E   75..00       MOV     ?V0 + 0,#0x0
+   \   000021   75..00       MOV     ?V0 + 1,#0x0
+   \   000024   75..20       MOV     ?V0 + 4,#0x20
+   \   000027   75..00       MOV     ?V0 + 5,#0x0
+     55          
+     56          	if (width > 0) {
+   \   00002A   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \                     ??CrossCallReturnLabel_6:
+   \   00002D   4037         JC      ??prints_0
+     57          		register int len = 0;
+   \   00002F   7A00         MOV     R2,#0x0
+   \   000031   7B00         MOV     R3,#0x0
+     58          		register const char *ptr;
+     59          		for (ptr = string; *ptr; ++ptr) ++len;
+   \   000033   8C82         MOV     DPL,R4
+   \   000035   8D83         MOV     DPH,R5
+   \   000037   8009         SJMP    ??prints_1
+   \                     ??prints_2:
+   \   000039   EA           MOV     A,R2
+   \   00003A   2401         ADD     A,#0x1
+   \   00003C   0A           INC     R2
+   \   00003D   EB           MOV     A,R3
+   \   00003E   3400         ADDC    A,#0x0
+   \   000040   FB           MOV     R3,A
+   \   000041   A3           INC     DPTR
+   \                     ??prints_1:
+   \   000042   E0           MOVX    A,@DPTR
+   \   000043   70F4         JNZ     ??prints_2
+     60          		if (len >= width) width = 0;
+   \   000045   C3           CLR     C
+   \   000046   EA           MOV     A,R2
+   \   000047   9E           SUBB    A,R6
+   \   000048   EB           MOV     A,R3
+   \   000049   9F           SUBB    A,R7
+   \   00004A   A2D2         MOV     C,0xD0 /* PSW */.2
+   \   00004C   65D0         XRL     A,PSW
+   \   00004E   33           RLC     A
+   \   00004F   4006         JC      ??prints_3
+   \   000051   7E00         MOV     R6,#0x0
+   \   000053   7F00         MOV     R7,#0x0
+   \   000055   8007         SJMP    ??prints_4
+     61          		else width -= len;
+   \                     ??prints_3:
+   \   000057   C3           CLR     C
+   \   000058   EE           MOV     A,R6
+   \   000059   9A           SUBB    A,R2
+   \   00005A   FE           MOV     R6,A
+   \   00005B   EF           MOV     A,R7
+   \   00005C   9B           SUBB    A,R3
+   \   00005D   FF           MOV     R7,A
+     62          		if (pad & PAD_ZERO) padchar = '0';
+   \                     ??prints_4:
+   \   00005E   E8           MOV     A,R0
+   \   00005F   5402         ANL     A,#0x2
+   \   000061   6003         JZ      ??prints_0
+   \   000063   75..30       MOV     ?V0 + 4,#0x30
+     63          	}
+     64          	if (!(pad & PAD_RIGHT)) {
+   \                     ??prints_0:
+   \   000066   E8           MOV     A,R0
+   \   000067   A2E0         MOV     C,0xE0 /* A   */.0
+   \   000069   400A         JC      ??prints_5
+   \   00006B   8003         SJMP    ??CrossCallReturnLabel_4
+     65          		for ( ; width > 0; --width) {
+     66          			printchar (out, padchar);
+   \                     ??prints_6:
+   \   00006D                ; Setup parameters for call to function printchar
+   \   00006D   12....       LCALL   ?Subroutine6 & 0xFFFF
+     67          			++pc;
+     68          		}
+   \                     ??CrossCallReturnLabel_4:
+   \   000070   12....       LCALL   ?Subroutine7 & 0xFFFF
+     69          	}
+   \                     ??CrossCallReturnLabel_7:
+   \   000073   50F8         JNC     ??prints_6
+     70          	for ( ; *string ; ++string) {
+   \                     ??prints_5:
+   \   000075   85..82       MOV     DPL,?V0 + 2
+   \   000078   85..83       MOV     DPH,?V0 + 3
+   \   00007B   E0           MOVX    A,@DPTR
+   \   00007C   6018         JZ      ??CrossCallReturnLabel_5
+     71          		printchar (out, *string);
+   \   00007E                ; Setup parameters for call to function printchar
+   \   00007E   FC           MOV     R4,A
+   \   00007F   7D00         MOV     R5,#0x0
+   \   000081   12....       LCALL   ?Subroutine9 & 0xFFFF
+     72          		++pc;
+     73          	}
+   \                     ??CrossCallReturnLabel_12:
+   \   000084   85..82       MOV     DPL,?V0 + 2
+   \   000087   85..83       MOV     DPH,?V0 + 3
+   \   00008A   A3           INC     DPTR
+   \   00008B   8582..       MOV     ?V0 + 2,DPL
+   \   00008E   8583..       MOV     ?V0 + 3,DPH
+   \   000091   80E2         SJMP    ??prints_5
+     74          	for ( ; width > 0; --width) {
+     75          		printchar (out, padchar);
+   \                     ??prints_7:
+   \   000093                ; Setup parameters for call to function printchar
+   \   000093   12....       LCALL   ?Subroutine6 & 0xFFFF
+     76          		++pc;
+     77          	}
+   \                     ??CrossCallReturnLabel_5:
+   \   000096   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \                     ??CrossCallReturnLabel_8:
+   \   000099   50F8         JNC     ??prints_7
+     78          
+     79          	return pc;
+   \   00009B   AA..         MOV     R2,?V0 + 0
+   \   00009D   AB..         MOV     R3,?V0 + 1
+   \   00009F                REQUIRE ?Subroutine1
+   \   00009F                ; // Fall through to label ?Subroutine1
+     80          }
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine1:
+   \   000000   7F0A         MOV     R7,#0xa
+   \   000002   02....       LJMP    ?BANKED_LEAVE_XDATA
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine7:
+   \   000000   C3           CLR     C
+   \   000001   EE           MOV     A,R6
+   \   000002   9401         SUBB    A,#0x1
+   \   000004   EF           MOV     A,R7
+   \   000005   12....       LCALL   ?Subroutine11 & 0xFFFF
+   \                     ??CrossCallReturnLabel_16:
+   \   000008   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine11:
+   \   000000   9400         SUBB    A,#0x0
+   \   000002   A2D2         MOV     C,0xD0 /* PSW */.2
+   \   000004   65D0         XRL     A,PSW
+   \   000006   33           RLC     A
+   \   000007   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine6:
+   \   000000   AC..         MOV     R4,?V0 + 4
+   \   000002   AD..         MOV     R5,?V0 + 5
+   \   000004   12....       LCALL   ?Subroutine9 & 0xFFFF
+   \                     ??CrossCallReturnLabel_13:
+   \   000007   EE           MOV     A,R6
+   \   000008   24FF         ADD     A,#-0x1
+   \   00000A   1E           DEC     R6
+   \   00000B   EF           MOV     A,R7
+   \   00000C   34FF         ADDC    A,#-0x1
+   \   00000E   FF           MOV     R7,A
+   \   00000F   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine9:
+   \   000000   AA..         MOV     R2,?V0 + 6
+   \   000002   AB..         MOV     R3,?V0 + 7
+   \   000004   12....       LCALL   ??printchar?relay
+   \   000007   E5..         MOV     A,?V0 + 0
+   \   000009   2401         ADD     A,#0x1
+   \   00000B   F5..         MOV     ?V0 + 0,A
+   \   00000D   E5..         MOV     A,?V0 + 1
+   \   00000F   3400         ADDC    A,#0x0
+   \   000011   F5..         MOV     ?V0 + 1,A
+   \   000013   22           RET
+     81          
+     82          /* the following should be enough for 16 bit int */
+     83          #define PRINT_BUF_LEN 6
+     84          // big buffer for uint32
+     85          //#define PRINT_BUF_LEN 10
+     86          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+     87          static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase)
+   \                     printi:
+     88          {
+   \   000000   74E8         MOV     A,#-0x18
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 24
+   \   000005                ; Auto size: 6
+   \   000005   74FA         MOV     A,#-0x6
+   \   000007   12....       LCALL   ?ALLOC_XSTACK8
+   \   00000A   8A..         MOV     ?V0 + 14,R2
+   \   00000C   8B..         MOV     ?V0 + 15,R3
+   \   00000E   EC           MOV     A,R4
+   \   00000F   F8           MOV     R0,A
+   \   000010   ED           MOV     A,R5
+   \   000011   F9           MOV     R1,A
+   \   000012   741E         MOV     A,#0x1e
+   \   000014   12....       LCALL   ?XSTACK_DISP0_8
+   \   000017   E0           MOVX    A,@DPTR
+   \   000018   F5..         MOV     ?V0 + 6,A
+   \   00001A   A3           INC     DPTR
+   \   00001B   E0           MOVX    A,@DPTR
+   \   00001C   F5..         MOV     ?V0 + 7,A
+   \   00001E   7420         MOV     A,#0x20
+   \   000020   12....       LCALL   ?XSTACK_DISP0_8
+   \   000023   E0           MOVX    A,@DPTR
+   \   000024   FA           MOV     R2,A
+   \   000025   A3           INC     DPTR
+   \   000026   E0           MOVX    A,@DPTR
+   \   000027   FB           MOV     R3,A
+   \   000028   7422         MOV     A,#0x22
+   \   00002A   12....       LCALL   ?XSTACK_DISP0_8
+   \   00002D   E0           MOVX    A,@DPTR
+   \   00002E   F5..         MOV     ?V0 + 0,A
+   \   000030   A3           INC     DPTR
+   \   000031   E0           MOVX    A,@DPTR
+   \   000032   F5..         MOV     ?V0 + 1,A
+   \   000034   7424         MOV     A,#0x24
+   \   000036   12....       LCALL   ?XSTACK_DISP0_8
+   \   000039   E0           MOVX    A,@DPTR
+   \   00003A   FE           MOV     R6,A
+   \   00003B   A3           INC     DPTR
+   \   00003C   E0           MOVX    A,@DPTR
+   \   00003D   FF           MOV     R7,A
+   \   00003E   7426         MOV     A,#0x26
+   \   000040   12....       LCALL   ?XSTACK_DISP0_8
+   \   000043   E0           MOVX    A,@DPTR
+   \   000044   F5..         MOV     ?V0 + 12,A
+     89          	char print_buf[PRINT_BUF_LEN];
+     90          	register char *s;
+     91          	register int t, neg = 0, pc = 0;
+   \   000046   75..00       MOV     ?V0 + 8,#0x0
+   \   000049   75..00       MOV     ?V0 + 4,#0x0
+     92          	register unsigned int u = i;
+     93          
+     94          	if (i == 0) {
+   \   00004C   E8           MOV     A,R0
+   \   00004D   49           ORL     A,R1
+   \   00004E   7036         JNZ     ??printi_0
+     95          		print_buf[0] = '0';
+   \   000050   85..82       MOV     DPL,?XSP + 0
+   \   000053   85..83       MOV     DPH,?XSP + 1
+   \   000056   7430         MOV     A,#0x30
+   \   000058   F0           MOVX    @DPTR,A
+     96          		print_buf[1] = '\0';
+   \   000059   7401         MOV     A,#0x1
+   \   00005B   12....       LCALL   ?XSTACK_DISP0_8
+   \   00005E   E4           CLR     A
+   \   00005F   F0           MOVX    @DPTR,A
+     97          		return prints (out, print_buf, width, pad);
+   \   000060                ; Setup parameters for call to function prints
+   \   000060   8E..         MOV     ?V0 + 2,R6
+   \   000062   8F..         MOV     ?V0 + 3,R7
+   \   000064   78..         MOV     R0,#?V0 + 2
+   \   000066   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000069   78..         MOV     R0,#?V0 + 0
+   \   00006B   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   00006E   7404         MOV     A,#0x4
+   \   000070   12....       LCALL   ?XSTACK_DISP0_8
+   \   000073   AC82         MOV     R4,DPL
+   \   000075   AD83         MOV     R5,DPH
+   \   000077   AA..         MOV     R2,?V0 + 14
+   \   000079   AB..         MOV     R3,?V0 + 15
+   \   00007B   12....       LCALL   ??prints?relay
+   \   00007E   7404         MOV     A,#0x4
+   \   000080   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000083   02....       LJMP    ??printi_1 & 0xFFFF
+     98          	}
+     99          
+    100          	if (sg && b == 10 && i < 0) {
+   \                     ??printi_0:
+   \   000086   EA           MOV     A,R2
+   \   000087   4B           ORL     A,R3
+   \   000088   601B         JZ      ??printi_2
+   \   00008A   740A         MOV     A,#0xa
+   \   00008C   65..         XRL     A,?V0 + 6
+   \   00008E   7002         JNZ     ??printi_3
+   \   000090   E5..         MOV     A,?V0 + 7
+   \                     ??printi_3:
+   \   000092   7011         JNZ     ??printi_2
+   \   000094   C3           CLR     C
+   \   000095   E9           MOV     A,R1
+   \   000096   12....       LCALL   ?Subroutine11 & 0xFFFF
+   \                     ??CrossCallReturnLabel_14:
+   \   000099   500A         JNC     ??printi_2
+    101          		neg = 1;
+   \   00009B   75..01       MOV     ?V0 + 8,#0x1
+    102          		u = -i;
+   \   00009E   C3           CLR     C
+   \   00009F   E4           CLR     A
+   \   0000A0   98           SUBB    A,R0
+   \   0000A1   FC           MOV     R4,A
+   \   0000A2   E4           CLR     A
+   \   0000A3   99           SUBB    A,R1
+   \   0000A4   FD           MOV     R5,A
+    103          	}
+    104          
+    105          	s = print_buf + PRINT_BUF_LEN-1;
+   \                     ??printi_2:
+   \   0000A5   7405         MOV     A,#0x5
+   \   0000A7   12....       LCALL   ?XSTACK_DISP0_8
+   \   0000AA   8582..       MOV     ?V0 + 2,DPL
+   \   0000AD   8583..       MOV     ?V0 + 3,DPH
+    106          	*s = '\0';
+   \   0000B0   E4           CLR     A
+   \   0000B1   F0           MOVX    @DPTR,A
+   \   0000B2   803D         SJMP    ??printi_4
+    107          
+    108          	while (u) {
+    109          		t = u % b;
+   \                     ??printi_5:
+   \   0000B4   EC           MOV     A,R4
+   \   0000B5   F8           MOV     R0,A
+   \   0000B6   ED           MOV     A,R5
+   \   0000B7   F9           MOV     R1,A
+   \   0000B8   AA..         MOV     R2,?V0 + 6
+   \   0000BA   AB..         MOV     R3,?V0 + 7
+   \   0000BC   12....       LCALL   ?US_DIV_MOD
+   \   0000BF   8A..         MOV     ?V0 + 2,R2
+   \   0000C1   A8..         MOV     R0,?V0 + 2
+    110          		if( t >= 10 )
+   \   0000C3   E8           MOV     A,R0
+   \   0000C4   940A         SUBB    A,#0xa
+   \   0000C6   EB           MOV     A,R3
+   \   0000C7   12....       LCALL   ?Subroutine11 & 0xFFFF
+   \                     ??CrossCallReturnLabel_15:
+   \   0000CA   4008         JC      ??printi_6
+    111          			t += letbase - '0' - 10;
+   \   0000CC   E5..         MOV     A,?V0 + 12
+   \   0000CE   24C6         ADD     A,#-0x3a
+   \   0000D0   FA           MOV     R2,A
+   \   0000D1   E8           MOV     A,R0
+   \   0000D2   2A           ADD     A,R2
+   \   0000D3   F8           MOV     R0,A
+    112          		*--s = t + '0';
+   \                     ??printi_6:
+   \   0000D4   8582..       MOV     ?V0 + 2,DPL
+   \   0000D7   8583..       MOV     ?V0 + 3,DPH
+   \   0000DA   E8           MOV     A,R0
+   \   0000DB   2430         ADD     A,#0x30
+   \   0000DD   F0           MOVX    @DPTR,A
+    113          		u /= b;
+   \   0000DE   EC           MOV     A,R4
+   \   0000DF   F8           MOV     R0,A
+   \   0000E0   ED           MOV     A,R5
+   \   0000E1   F9           MOV     R1,A
+   \   0000E2   AA..         MOV     R2,?V0 + 6
+   \   0000E4   AB..         MOV     R3,?V0 + 7
+   \   0000E6   12....       LCALL   ?US_DIV_MOD
+   \   0000E9   88..         MOV     ?V0 + 10,R0
+   \   0000EB   89..         MOV     ?V0 + 11,R1
+   \   0000ED   AC..         MOV     R4,?V0 + 10
+   \   0000EF   AD..         MOV     R5,?V0 + 11
+    114          	}
+   \                     ??printi_4:
+   \   0000F1   E5..         MOV     A,?V0 + 2
+   \   0000F3   24FF         ADD     A,#-0x1
+   \   0000F5   F582         MOV     DPL,A
+   \   0000F7   E5..         MOV     A,?V0 + 3
+   \   0000F9   34FF         ADDC    A,#-0x1
+   \   0000FB   F583         MOV     DPH,A
+   \   0000FD   EC           MOV     A,R4
+   \   0000FE   4D           ORL     A,R5
+   \   0000FF   70B3         JNZ     ??printi_5
+    115          
+    116          	if (neg) {
+   \   000101   E5..         MOV     A,?V0 + 8
+   \   000103   A2E0         MOV     C,0xE0 /* A   */.0
+   \   000105   5030         JNC     ??printi_7
+    117          		if( width && (pad & PAD_ZERO) ) {
+   \   000107   E5..         MOV     A,?V0 + 0
+   \   000109   45..         ORL     A,?V0 + 1
+   \   00010B   6021         JZ      ??printi_8
+   \   00010D   EE           MOV     A,R6
+   \   00010E   5402         ANL     A,#0x2
+   \   000110   601C         JZ      ??printi_8
+    118          			printchar (out, '-');
+   \   000112                ; Setup parameters for call to function printchar
+   \   000112   7C2D         MOV     R4,#0x2d
+   \   000114   7D00         MOV     R5,#0x0
+   \   000116   AA..         MOV     R2,?V0 + 14
+   \   000118   AB..         MOV     R3,?V0 + 15
+   \   00011A   12....       LCALL   ??printchar?relay
+    119          			++pc;
+   \   00011D   75..01       MOV     ?V0 + 4,#0x1
+    120          			--width;
+   \   000120   E5..         MOV     A,?V0 + 0
+   \   000122   24FF         ADD     A,#-0x1
+   \   000124   F5..         MOV     ?V0 + 0,A
+   \   000126   E5..         MOV     A,?V0 + 1
+   \   000128   34FF         ADDC    A,#-0x1
+   \   00012A   F5..         MOV     ?V0 + 1,A
+   \   00012C   8009         SJMP    ??printi_7
+    121          		}
+    122          		else {
+    123          			*--s = '-';
+   \                     ??printi_8:
+   \   00012E   8582..       MOV     ?V0 + 2,DPL
+   \   000131   8583..       MOV     ?V0 + 3,DPH
+   \   000134   742D         MOV     A,#0x2d
+   \   000136   F0           MOVX    @DPTR,A
+    124          		}
+    125          	}
+    126          
+    127          	return pc + prints (out, s, width, pad);
+   \                     ??printi_7:
+   \   000137                ; Setup parameters for call to function prints
+   \   000137   8E..         MOV     ?V0 + 6,R6
+   \   000139   8F..         MOV     ?V0 + 7,R7
+   \   00013B   78..         MOV     R0,#?V0 + 6
+   \   00013D   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000140   78..         MOV     R0,#?V0 + 0
+   \   000142   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000145   AC..         MOV     R4,?V0 + 2
+   \   000147   AD..         MOV     R5,?V0 + 3
+   \   000149   AA..         MOV     R2,?V0 + 14
+   \   00014B   AB..         MOV     R3,?V0 + 15
+   \   00014D   12....       LCALL   ??prints?relay
+   \   000150   7404         MOV     A,#0x4
+   \   000152   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000155   8A..         MOV     ?V0 + 0,R2
+   \   000157   8B..         MOV     ?V0 + 1,R3
+   \   000159   E5..         MOV     A,?V0 + 4
+   \   00015B   25..         ADD     A,?V0 + 0
+   \   00015D   FA           MOV     R2,A
+   \   00015E   E4           CLR     A
+   \   00015F   35..         ADDC    A,?V0 + 1
+   \   000161   FB           MOV     R3,A
+   \                     ??printi_1:
+   \   000162   7406         MOV     A,#0x6
+   \   000164   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000167   7F10         MOV     R7,#0x10
+   \   000169   02....       LJMP    ?BANKED_LEAVE_XDATA
+    128          }
+    129          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    130          static int print(char **out, const char *format, va_list args )
+   \                     print:
+    131          {
+   \   000000   74EE         MOV     A,#-0x12
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 18
+   \   000005                ; Auto size: 2
+   \   000005   74FE         MOV     A,#-0x2
+   \   000007   12....       LCALL   ?ALLOC_XSTACK8
+   \   00000A   EA           MOV     A,R2
+   \   00000B   FE           MOV     R6,A
+   \   00000C   EB           MOV     A,R3
+   \   00000D   FF           MOV     R7,A
+   \   00000E   8C..         MOV     ?V0 + 0,R4
+   \   000010   8D..         MOV     ?V0 + 1,R5
+   \   000012   7414         MOV     A,#0x14
+   \   000014   12....       LCALL   ?XSTACK_DISP0_8
+   \   000017   E0           MOVX    A,@DPTR
+   \   000018   F5..         MOV     ?V0 + 4,A
+   \   00001A   A3           INC     DPTR
+   \   00001B   E0           MOVX    A,@DPTR
+   \   00001C   F5..         MOV     ?V0 + 5,A
+    132          	register int width, pad;
+    133          	register int pc = 0;
+   \   00001E   75..00       MOV     ?V0 + 2,#0x0
+   \   000021   75..00       MOV     ?V0 + 3,#0x0
+   \   000024   802A         SJMP    ??print_0
+    134          	char scr[2];
+    135          
+    136          	for (; *format != 0; ++format) {
+    137          		if (*format == '%') {
+    138          			++format;
+    139          			width = pad = 0;
+    140          			if (*format == '\0') break;
+    141          			if (*format == '%') goto out;
+    142          			if (*format == '-') {
+    143          				++format;
+    144          				pad = PAD_RIGHT;
+    145          			}
+    146          			while (*format == '0') {
+    147          				++format;
+    148          				pad |= PAD_ZERO;
+    149          			}
+    150          			for ( ; *format >= '0' && *format <= '9'; ++format) {
+    151          				width *= 10;
+    152          				width += *format - '0';
+    153          			}
+    154          			if( *format == 's' ) {
+    155          				register char *s = (char *)va_arg( args, int );
+    156          				pc += prints (out, s?s:"(null)", width, pad);
+    157          				continue;
+    158          			}
+    159          			if( *format == 'd' ) {
+    160          				pc += printi (out, va_arg( args, int ), 10, 1, width, pad, 'a');
+    161          				continue;
+    162          			}
+    163          			if( *format == 'x' ) {
+    164          				pc += printi (out, va_arg( args, int ), 16, 0, width, pad, 'a');
+    165          				continue;
+    166          			}
+    167          			if( *format == 'X' ) {
+    168          				pc += printi (out, va_arg( args, int ), 16, 0, width, pad, 'A');
+    169          				continue;
+    170          			}
+    171          			if( *format == 'u' ) {
+    172          				pc += printi (out, va_arg( args, int ), 10, 0, width, pad, 'a');
+    173          				continue;
+    174          			}
+    175          			if( *format == 'c' ) {
+    176          				/* char are converted to int then pushed on the stack */
+    177          				scr[0] = (char)va_arg( args, int );
+    178          				scr[1] = '\0';
+    179          				pc += prints (out, scr, width, pad);
+    180          				continue;
+    181          			}
+    182          		}
+    183          		else {
+    184          		out:
+    185          			printchar (out, *format);
+   \                     ??print_1:
+   \   000026                ; Setup parameters for call to function printchar
+   \   000026   85..82       MOV     DPL,?V0 + 0
+   \   000029   85..83       MOV     DPH,?V0 + 1
+   \   00002C   E0           MOVX    A,@DPTR
+   \   00002D   FC           MOV     R4,A
+   \   00002E   7D00         MOV     R5,#0x0
+   \   000030   EE           MOV     A,R6
+   \   000031   FA           MOV     R2,A
+   \   000032   EF           MOV     A,R7
+   \   000033   FB           MOV     R3,A
+   \   000034   12....       LCALL   ??printchar?relay
+    186          			++pc;
+   \   000037   E5..         MOV     A,?V0 + 2
+   \   000039   2401         ADD     A,#0x1
+   \   00003B   F5..         MOV     ?V0 + 2,A
+   \   00003D   E5..         MOV     A,?V0 + 3
+   \   00003F   3400         ADDC    A,#0x0
+   \                     ??print_2:
+   \   000041   F5..         MOV     ?V0 + 3,A
+    187          		}
+   \                     ??print_3:
+   \   000043   85..82       MOV     DPL,?V0 + 0
+   \   000046   85..83       MOV     DPH,?V0 + 1
+   \   000049   A3           INC     DPTR
+   \   00004A   8582..       MOV     ?V0 + 0,DPL
+   \   00004D   8583..       MOV     ?V0 + 1,DPH
+   \                     ??print_0:
+   \   000050   85..82       MOV     DPL,?V0 + 0
+   \   000053   85..83       MOV     DPH,?V0 + 1
+   \   000056   E0           MOVX    A,@DPTR
+   \   000057   F8           MOV     R0,A
+   \   000058   7003         JNZ     $+5
+   \   00005A   02....       LJMP    ??print_4 & 0xFFFF
+   \   00005D   7425         MOV     A,#0x25
+   \   00005F   68           XRL     A,R0
+   \   000060   70C4         JNZ     ??print_1
+   \   000062   A3           INC     DPTR
+   \   000063   8582..       MOV     ?V0 + 0,DPL
+   \   000066   8583..       MOV     ?V0 + 1,DPH
+   \   000069   7C00         MOV     R4,#0x0
+   \   00006B   7D00         MOV     R5,#0x0
+   \   00006D   7A00         MOV     R2,#0x0
+   \   00006F   7B00         MOV     R3,#0x0
+   \   000071   E0           MOVX    A,@DPTR
+   \   000072   F8           MOV     R0,A
+   \   000073   7003         JNZ     $+5
+   \   000075   02....       LJMP    ??print_4 & 0xFFFF
+   \   000078   7425         MOV     A,#0x25
+   \   00007A   68           XRL     A,R0
+   \   00007B   60A9         JZ      ??print_1
+   \   00007D   742D         MOV     A,#0x2d
+   \   00007F   68           XRL     A,R0
+   \   000080   7015         JNZ     ??print_5
+   \   000082   A3           INC     DPTR
+   \   000083   8582..       MOV     ?V0 + 0,DPL
+   \   000086   8583..       MOV     ?V0 + 1,DPH
+   \   000089   0C           INC     R4
+   \   00008A   800B         SJMP    ??print_5
+   \                     ??print_6:
+   \   00008C   A3           INC     DPTR
+   \   00008D   8582..       MOV     ?V0 + 0,DPL
+   \   000090   8583..       MOV     ?V0 + 1,DPH
+   \   000093   7402         MOV     A,#0x2
+   \   000095   4C           ORL     A,R4
+   \   000096   FC           MOV     R4,A
+   \                     ??print_5:
+   \   000097   85..82       MOV     DPL,?V0 + 0
+   \   00009A   85..83       MOV     DPH,?V0 + 1
+   \   00009D   E0           MOVX    A,@DPTR
+   \   00009E   6430         XRL     A,#0x30
+   \   0000A0   60EA         JZ      ??print_6
+   \                     ??print_7:
+   \   0000A2   85..82       MOV     DPL,?V0 + 0
+   \   0000A5   85..83       MOV     DPH,?V0 + 1
+   \   0000A8   E0           MOVX    A,@DPTR
+   \   0000A9   F5..         MOV     ?V0 + 6,A
+   \   0000AB   74D0         MOV     A,#-0x30
+   \   0000AD   25..         ADD     A,?V0 + 6
+   \   0000AF   C3           CLR     C
+   \   0000B0   940A         SUBB    A,#0xa
+   \   0000B2   5027         JNC     ??print_8
+   \   0000B4   EA           MOV     A,R2
+   \   0000B5   75F00A       MOV     B,#0xa
+   \   0000B8   A4           MUL     AB
+   \   0000B9   FA           MOV     R2,A
+   \   0000BA   A8F0         MOV     R0,B
+   \   0000BC   75F00A       MOV     B,#0xa
+   \   0000BF   EB           MOV     A,R3
+   \   0000C0   A4           MUL     AB
+   \   0000C1   28           ADD     A,R0
+   \   0000C2   FB           MOV     R3,A
+   \   0000C3   E5..         MOV     A,?V0 + 6
+   \   0000C5   2A           ADD     A,R2
+   \   0000C6   F8           MOV     R0,A
+   \   0000C7   E4           CLR     A
+   \   0000C8   3B           ADDC    A,R3
+   \   0000C9   F9           MOV     R1,A
+   \   0000CA   E8           MOV     A,R0
+   \   0000CB   24D0         ADD     A,#-0x30
+   \   0000CD   FA           MOV     R2,A
+   \   0000CE   E9           MOV     A,R1
+   \   0000CF   34FF         ADDC    A,#-0x1
+   \   0000D1   FB           MOV     R3,A
+   \   0000D2   A3           INC     DPTR
+   \   0000D3   8582..       MOV     ?V0 + 0,DPL
+   \   0000D6   8583..       MOV     ?V0 + 1,DPH
+   \   0000D9   80C7         SJMP    ??print_7
+   \                     ??print_8:
+   \   0000DB   E0           MOVX    A,@DPTR
+   \   0000DC   F8           MOV     R0,A
+   \   0000DD   7473         MOV     A,#0x73
+   \   0000DF   68           XRL     A,R0
+   \   0000E0   7058         JNZ     ??print_9
+   \   0000E2   85..82       MOV     DPL,?V0 + 4
+   \   0000E5   85..83       MOV     DPH,?V0 + 5
+   \   0000E8   E0           MOVX    A,@DPTR
+   \   0000E9   F8           MOV     R0,A
+   \   0000EA   A3           INC     DPTR
+   \   0000EB   E0           MOVX    A,@DPTR
+   \   0000EC   F9           MOV     R1,A
+   \   0000ED   8882         MOV     DPL,R0
+   \   0000EF   8983         MOV     DPH,R1
+   \   0000F1   E0           MOVX    A,@DPTR
+   \   0000F2   F5..         MOV     ?V0 + 6,A
+   \   0000F4   A3           INC     DPTR
+   \   0000F5   E0           MOVX    A,@DPTR
+   \   0000F6   F5..         MOV     ?V0 + 7,A
+   \   0000F8   12....       LCALL   ??Subroutine13_0 & 0xFFFF
+   \                     ??CrossCallReturnLabel_20:
+   \   0000FB   E5..         MOV     A,?V0 + 6
+   \   0000FD   45..         ORL     A,?V0 + 7
+   \   0000FF   7006         JNZ     ??print_10
+   \   000101   75....       MOV     ?V0 + 6,#`?<Constant "(null)">` & 0xff
+   \   000104   75....       MOV     ?V0 + 7,#(`?<Constant "(null)">` >> 8) & 0xff
+   \                     ??print_10:
+   \   000107                ; Setup parameters for call to function prints
+   \   000107   8C..         MOV     ?V0 + 8,R4
+   \   000109   8D..         MOV     ?V0 + 9,R5
+   \   00010B   78..         MOV     R0,#?V0 + 8
+   \   00010D   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000110   8A..         MOV     ?V0 + 8,R2
+   \   000112   8B..         MOV     ?V0 + 9,R3
+   \   000114   78..         MOV     R0,#?V0 + 8
+   \   000116   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000119   AC..         MOV     R4,?V0 + 6
+   \   00011B   AD..         MOV     R5,?V0 + 7
+   \                     ??print_11:
+   \   00011D   EE           MOV     A,R6
+   \   00011E   FA           MOV     R2,A
+   \   00011F   EF           MOV     A,R7
+   \   000120   FB           MOV     R3,A
+   \   000121   12....       LCALL   ??prints?relay
+   \   000124   7404         MOV     A,#0x4
+   \   000126   12....       LCALL   ?DEALLOC_XSTACK8
+   \                     ??print_12:
+   \   000129   8A..         MOV     ?V0 + 6,R2
+   \   00012B   8B..         MOV     ?V0 + 7,R3
+   \   00012D   E5..         MOV     A,?V0 + 2
+   \   00012F   25..         ADD     A,?V0 + 6
+   \   000131   F5..         MOV     ?V0 + 2,A
+   \   000133   E5..         MOV     A,?V0 + 3
+   \   000135   35..         ADDC    A,?V0 + 7
+   \   000137   02....       LJMP    ??print_2 & 0xFFFF
+   \                     ??print_9:
+   \   00013A   7464         MOV     A,#0x64
+   \   00013C   68           XRL     A,R0
+   \   00013D   7041         JNZ     ??print_13
+   \   00013F   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \                     ??CrossCallReturnLabel_0:
+   \   000142   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000145   8C..         MOV     ?V0 + 8,R4
+   \   000147   78..         MOV     R0,#?V0 + 8
+   \   000149   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   00014C   8A..         MOV     ?V0 + 8,R2
+   \   00014E   8B..         MOV     ?V0 + 9,R3
+   \   000150   78..         MOV     R0,#?V0 + 8
+   \   000152   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000155   75..01       MOV     ?V0 + 8,#0x1
+   \   000158   8D..         MOV     ?V0 + 9,R5
+   \                     ??print_14:
+   \   00015A   78..         MOV     R0,#?V0 + 8
+   \   00015C   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   00015F   75..0A       MOV     ?V0 + 8,#0xa
+   \                     ??print_15:
+   \   000162   78..         MOV     R0,#?V0 + 8
+   \   000164   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000167   85..82       MOV     DPL,?V0 + 6
+   \   00016A   85..83       MOV     DPH,?V0 + 7
+   \   00016D   E0           MOVX    A,@DPTR
+   \   00016E   FC           MOV     R4,A
+   \   00016F   A3           INC     DPTR
+   \   000170   E0           MOVX    A,@DPTR
+   \   000171   FD           MOV     R5,A
+   \   000172   EE           MOV     A,R6
+   \   000173   FA           MOV     R2,A
+   \   000174   EF           MOV     A,R7
+   \   000175   FB           MOV     R3,A
+   \   000176   12....       LCALL   ??printi?relay
+   \   000179   740A         MOV     A,#0xa
+   \   00017B   12....       LCALL   ?DEALLOC_XSTACK8
+   \   00017E   80A9         SJMP    ??print_12
+   \                     ??print_13:
+   \   000180   7478         MOV     A,#0x78
+   \   000182   68           XRL     A,R0
+   \   000183   702C         JNZ     ??print_16
+   \   000185   12....       LCALL   ?Subroutine4 & 0xFFFF
+   \                     ??CrossCallReturnLabel_21:
+   \   000188                ; Setup parameters for call to function printi
+   \   000188   75..61       MOV     ?V0 + 8,#0x61
+   \                     ??print_17:
+   \   00018B   8D..         MOV     ?V0 + 9,R5
+   \   00018D   78..         MOV     R0,#?V0 + 8
+   \   00018F   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000192   8C..         MOV     ?V0 + 8,R4
+   \   000194   78..         MOV     R0,#?V0 + 8
+   \   000196   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000199   8A..         MOV     ?V0 + 8,R2
+   \   00019B   8B..         MOV     ?V0 + 9,R3
+   \   00019D   78..         MOV     R0,#?V0 + 8
+   \   00019F   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   0001A2   E4           CLR     A
+   \   0001A3   F5..         MOV     ?V0 + 8,A
+   \   0001A5   F5..         MOV     ?V0 + 9,A
+   \   0001A7   78..         MOV     R0,#?V0 + 8
+   \   0001A9   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   0001AC   75..10       MOV     ?V0 + 8,#0x10
+   \   0001AF   80B1         SJMP    ??print_15
+   \                     ??print_16:
+   \   0001B1   7458         MOV     A,#0x58
+   \   0001B3   68           XRL     A,R0
+   \   0001B4   7008         JNZ     ??print_18
+   \   0001B6   12....       LCALL   ?Subroutine4 & 0xFFFF
+   \                     ??CrossCallReturnLabel_22:
+   \   0001B9                ; Setup parameters for call to function printi
+   \   0001B9   75..41       MOV     ?V0 + 8,#0x41
+   \   0001BC   80CD         SJMP    ??print_17
+   \                     ??print_18:
+   \   0001BE   7475         MOV     A,#0x75
+   \   0001C0   68           XRL     A,R0
+   \   0001C1   701E         JNZ     ??print_19
+   \   0001C3   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \                     ??CrossCallReturnLabel_1:
+   \   0001C6   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   0001C9   8C..         MOV     ?V0 + 8,R4
+   \   0001CB   78..         MOV     R0,#?V0 + 8
+   \   0001CD   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   0001D0   8A..         MOV     ?V0 + 8,R2
+   \   0001D2   8B..         MOV     ?V0 + 9,R3
+   \   0001D4   78..         MOV     R0,#?V0 + 8
+   \   0001D6   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   0001D9   E4           CLR     A
+   \   0001DA   F5..         MOV     ?V0 + 8,A
+   \   0001DC   F5..         MOV     ?V0 + 9,A
+   \   0001DE   02....       LJMP    ??print_14 & 0xFFFF
+   \                     ??print_19:
+   \   0001E1   7463         MOV     A,#0x63
+   \   0001E3   68           XRL     A,R0
+   \   0001E4   6003         JZ      $+5
+   \   0001E6   02....       LJMP    ??print_3 & 0xFFFF
+   \   0001E9   85..82       MOV     DPL,?V0 + 4
+   \   0001EC   85..83       MOV     DPH,?V0 + 5
+   \   0001EF   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_10:
+   \   0001F2   E0           MOVX    A,@DPTR
+   \   0001F3   85..82       MOV     DPL,?XSP + 0
+   \   0001F6   85..83       MOV     DPH,?XSP + 1
+   \   0001F9   F0           MOVX    @DPTR,A
+   \   0001FA   85..82       MOV     DPL,?V0 + 4
+   \   0001FD   85..83       MOV     DPH,?V0 + 5
+   \   000200   E0           MOVX    A,@DPTR
+   \   000201   2402         ADD     A,#0x2
+   \   000203   F8           MOV     R0,A
+   \   000204   A3           INC     DPTR
+   \   000205   E0           MOVX    A,@DPTR
+   \   000206   12....       LCALL   ??Subroutine14_0 & 0xFFFF
+   \                     ??CrossCallReturnLabel_19:
+   \   000209   7401         MOV     A,#0x1
+   \   00020B   12....       LCALL   ?XSTACK_DISP0_8
+   \   00020E   E4           CLR     A
+   \   00020F   F0           MOVX    @DPTR,A
+   \   000210                ; Setup parameters for call to function prints
+   \   000210   8C..         MOV     ?V0 + 6,R4
+   \   000212   8D..         MOV     ?V0 + 7,R5
+   \   000214   78..         MOV     R0,#?V0 + 6
+   \   000216   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000219   8A..         MOV     ?V0 + 6,R2
+   \   00021B   8B..         MOV     ?V0 + 7,R3
+   \   00021D   78..         MOV     R0,#?V0 + 6
+   \   00021F   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000222   7404         MOV     A,#0x4
+   \   000224   12....       LCALL   ?XSTACK_DISP0_8
+   \   000227   AC82         MOV     R4,DPL
+   \   000229   AD83         MOV     R5,DPH
+   \   00022B   02....       LJMP    ??print_11 & 0xFFFF
+    188          	}
+    189          	if (out) **out = '\0';
+   \                     ??print_4:
+   \   00022E   EE           MOV     A,R6
+   \   00022F   4F           ORL     A,R7
+   \   000230   6009         JZ      ??print_20
+   \   000232   8E82         MOV     DPL,R6
+   \   000234   8F83         MOV     DPH,R7
+   \   000236   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_11:
+   \   000239   E4           CLR     A
+   \   00023A   F0           MOVX    @DPTR,A
+    190          	va_end( args );
+    191          	return pc;
+   \                     ??print_20:
+   \   00023B   AA..         MOV     R2,?V0 + 2
+   \   00023D   AB..         MOV     R3,?V0 + 3
+   \   00023F   7402         MOV     A,#0x2
+   \   000241   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000244   02....       LJMP    ?Subroutine1 & 0xFFFF
+    192          }
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine4:
+   \   000000   12....       LCALL   ?Subroutine12 & 0xFFFF
+   \                     ??CrossCallReturnLabel_18:
+   \   000003                REQUIRE ??Subroutine13_0
+   \   000003                ; // Fall through to label ??Subroutine13_0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ??Subroutine13_0:
+   \   000000   E8           MOV     A,R0
+   \   000001   2402         ADD     A,#0x2
+   \   000003   08           INC     R0
+   \   000004   08           INC     R0
+   \   000005   E9           MOV     A,R1
+   \   000006                REQUIRE ??Subroutine14_0
+   \   000006                ; // Fall through to label ??Subroutine14_0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ??Subroutine14_0:
+   \   000000   12....       LCALL   ?Subroutine10 & 0xFFFF
+   \                     ??CrossCallReturnLabel_24:
+   \   000003   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine10:
+   \   000000   3400         ADDC    A,#0x0
+   \   000002   F9           MOV     R1,A
+   \   000003   85..82       MOV     DPL,?V0 + 4
+   \   000006   85..83       MOV     DPH,?V0 + 5
+   \   000009   E8           MOV     A,R0
+   \   00000A   F0           MOVX    @DPTR,A
+   \   00000B   A3           INC     DPTR
+   \   00000C   E9           MOV     A,R1
+   \   00000D   F0           MOVX    @DPTR,A
+   \   00000E   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine3:
+   \   000000   12....       LCALL   ?Subroutine12 & 0xFFFF
+   \                     ??CrossCallReturnLabel_17:
+   \   000003   E8           MOV     A,R0
+   \   000004   2402         ADD     A,#0x2
+   \   000006   08           INC     R0
+   \   000007   08           INC     R0
+   \   000008   E9           MOV     A,R1
+   \   000009   12....       LCALL   ?Subroutine10 & 0xFFFF
+   \                     ??CrossCallReturnLabel_23:
+   \   00000C                ; Setup parameters for call to function printi
+   \   00000C                ; Setup parameters for call to function printi
+   \   00000C   75..61       MOV     ?V0 + 8,#0x61
+   \   00000F   8D..         MOV     ?V0 + 9,R5
+   \   000011   78..         MOV     R0,#?V0 + 8
+   \   000013   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine12:
+   \   000000   85..82       MOV     DPL,?V0 + 4
+   \   000003   85..83       MOV     DPH,?V0 + 5
+   \   000006   E0           MOVX    A,@DPTR
+   \   000007   F8           MOV     R0,A
+   \   000008   A3           INC     DPTR
+   \   000009   E0           MOVX    A,@DPTR
+   \   00000A   F9           MOV     R1,A
+   \   00000B   88..         MOV     ?V0 + 6,R0
+   \   00000D   89..         MOV     ?V0 + 7,R1
+   \   00000F   22           RET
+    193          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    194          int printf(const char *format, ...)
+   \                     printf:
+    195          {
+   \   000000   74F6         MOV     A,#-0xa
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 10
+   \   000005                ; Auto size: 2
+   \   000005   74FE         MOV     A,#-0x2
+   \   000007   12....       LCALL   ?ALLOC_XSTACK8
+    196                  va_list args;
+    197                  
+    198                  va_start( args, format );
+   \   00000A   740C         MOV     A,#0xc
+   \   00000C   12....       LCALL   ?XSTACK_DISP0_8
+   \   00000F   12....       LCALL   ?Subroutine5 & 0xFFFF
+    199                  return print( 0, format, args );
+   \                     ??CrossCallReturnLabel_2:
+   \   000012   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   000015   EA           MOV     A,R2
+   \   000016   FC           MOV     R4,A
+   \   000017   EB           MOV     A,R3
+   \   000018   FD           MOV     R5,A
+   \   000019   7A00         MOV     R2,#0x0
+   \   00001B   7B00         MOV     R3,#0x0
+   \   00001D   12....       LCALL   ??print?relay
+   \   000020   7402         MOV     A,#0x2
+   \   000022   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000025   7402         MOV     A,#0x2
+   \   000027                REQUIRE ?Subroutine2
+   \   000027                ; // Fall through to label ?Subroutine2
+    200          }
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine2:
+   \   000000   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000003   7F02         MOV     R7,#0x2
+   \   000005   02....       LJMP    ?BANKED_LEAVE_XDATA
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine5:
+   \   000000   A882         MOV     R0,DPL
+   \   000002   A983         MOV     R1,DPH
+   \   000004   85..82       MOV     DPL,?XSP + 0
+   \   000007   85..83       MOV     DPH,?XSP + 1
+   \   00000A   E8           MOV     A,R0
+   \   00000B   F0           MOVX    @DPTR,A
+   \   00000C   A3           INC     DPTR
+   \   00000D   E9           MOV     A,R1
+   \   00000E   F0           MOVX    @DPTR,A
+   \   00000F                ; Setup parameters for call to function print
+   \   00000F                ; Setup parameters for call to function print
+   \   00000F   85..82       MOV     DPL,?XSP + 0
+   \   000012   85..83       MOV     DPH,?XSP + 1
+   \   000015   8582..       MOV     ?V0 + 0,DPL
+   \   000018   8583..       MOV     ?V0 + 1,DPH
+   \   00001B   78..         MOV     R0,#?V0 + 0
+   \   00001D   22           RET
+    201          
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    202          int sprintf(char *out, const char *format, ...)
+   \                     sprintf:
+    203          {
+   \   000000   74F6         MOV     A,#-0xa
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 10
+   \   000005                ; Auto size: 4
+   \   000005   74FC         MOV     A,#-0x4
+   \   000007   12....       LCALL   ?ALLOC_XSTACK8
+   \   00000A   7402         MOV     A,#0x2
+   \   00000C   12....       LCALL   ?XSTACK_DISP0_8
+   \   00000F   EA           MOV     A,R2
+   \   000010   F0           MOVX    @DPTR,A
+   \   000011   A3           INC     DPTR
+   \   000012   EB           MOV     A,R3
+   \   000013   F0           MOVX    @DPTR,A
+    204                  va_list args;
+    205                  
+    206                  va_start( args, format );
+   \   000014   740E         MOV     A,#0xe
+   \   000016   12....       LCALL   ?XSTACK_DISP0_8
+   \   000019   12....       LCALL   ?Subroutine5 & 0xFFFF
+    207                  return print( &out, format, args );
+   \                     ??CrossCallReturnLabel_3:
+   \   00001C   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   00001F   7404         MOV     A,#0x4
+   \   000021   12....       LCALL   ?XSTACK_DISP0_8
+   \   000024   AA82         MOV     R2,DPL
+   \   000026   AB83         MOV     R3,DPH
+   \   000028   12....       LCALL   ??print?relay
+   \   00002B   7402         MOV     A,#0x2
+   \   00002D   12....       LCALL   ?DEALLOC_XSTACK8
+   \   000030   7404         MOV     A,#0x4
+   \   000032   80..         SJMP    ?Subroutine2
+    208          }
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??putchar?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    putchar
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??printchar?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    printchar
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??prints?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    prints
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??printi?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    printi
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??print?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    print
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??printf?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    printf
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??sprintf?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    sprintf
+
+   \                                 In  segment XDATA_ROM_C, align 1
+   \                     `?<Constant "(null)">`:
+   \   000000   286E756C     DB "(null)"
+   \            6C2900  
+    209          
+    210          #ifdef TEST_PRINTF
+    211          int main(void)
+    212          {
+    213          	char *ptr = "Hello world!";
+    214          	char *np = 0;
+    215          	int i = 5;
+    216          	unsigned int bs = sizeof(int)*8;
+    217          	int mi;
+    218          	//char buf[80];
+    219          
+    220          	mi = (1 << (bs-1)) + 1;
+    221          	printf("%s\n", ptr);
+    222          	printf("printf test\n");
+    223          	printf("%s is null pointer\n", np);
+    224          	printf("%d = 5\n", i);
+    225          	printf("%d = - max int\n", mi);
+    226          	printf("char %c = 'a'\n", 'a');
+    227          	printf("hex %x = ff\n", 0xff);
+    228          	printf("hex %02x = 00\n", 0);
+    229          	printf("signed %d = unsigned %u = hex %x\n", -3, -3, -3);
+    230          	printf("%d %s(s)%", 0, "message");
+    231          	printf("\n");
+    232          	printf("%d %s(s) with %%\n", 0, "message");
+    233          	sprintf(buf, "justif: \"%-10s\"\n", "left"); printf("%s", buf);
+    234          	sprintf(buf, "justif: \"%10s\"\n", "right"); printf("%s", buf);
+    235          	sprintf(buf, " 3: %04d zero padded\n", 3); printf("%s", buf);
+    236          	sprintf(buf, " 3: %-4d left justif.\n", 3); printf("%s", buf);
+    237          	sprintf(buf, " 3: %4d right justif.\n", 3); printf("%s", buf);
+    238          	sprintf(buf, "-3: %04d zero padded\n", -3); printf("%s", buf);
+    239          	sprintf(buf, "-3: %-4d left justif.\n", -3); printf("%s", buf);
+    240          	sprintf(buf, "-3: %4d right justif.\n", -3); printf("%s", buf);
+    241          
+    242          	return 0;
+    243          }
+    244          
+    245          /*
+    246           * if you compile this file with
+    247           *   gcc -Wall $(YOUR_C_OPTIONS) -DTEST_PRINTF -c printf.c
+    248           * you will get a normal warning:
+    249           *   printf.c:214: warning: spurious trailing `%' in format
+    250           * this line is testing an invalid % at the end of the format string.
+    251           *
+    252           * this should display (on 32bit int machine) :
+    253           *
+    254           * Hello world!
+    255           * printf test
+    256           * (null) is null pointer
+    257           * 5 = 5
+    258           * -2147483647 = - max int
+    259           * char a = 'a'
+    260           * hex ff = ff
+    261           * hex 00 = 00
+    262           * signed -3 = unsigned 4294967293 = hex fffffffd
+    263           * 0 message(s)
+    264           * 0 message(s) with %
+    265           * justif: "left      "
+    266           * justif: "     right"
+    267           *  3: 0003 zero padded
+    268           *  3: 3    left justif.
+    269           *  3:    3 right justif.
+    270           * -3: -003 zero padded
+    271           * -3: -3   left justif.
+    272           * -3:   -3 right justif.
+    273           */
+    274          
+    275          #endif
+
+   Maximum stack usage in bytes:
+
+     Function          ISTACK PSTACK XSTACK
+     --------          ------ ------ ------
+     print                 1      0     46
+       -> printchar        0      0     40
+       -> prints           0      0     48
+       -> printi           0      0     60
+       -> printi           0      0     60
+       -> printi           0      0     60
+       -> printi           0      0     60
+       -> prints           0      0     48
+     printchar             3      0     30
+       -> putchar          4      0      0
+     printf                0      0     14
+       -> print            0      0     28
+     printi                1      0     64
+       -> prints           0      0     68
+       -> printchar        0      0     60
+       -> prints           0      0     68
+     prints                0      0     52
+       -> printchar        0      0     36
+       -> printchar        0      0     36
+       -> printchar        0      0     36
+     putchar               3      0      1
+       -> HalUARTWrite     4      0      2
+     sprintf               0      0     16
+       -> print            0      0     32
+
+
+   Segment part sizes:
+
+     Function/Label       Bytes
+     --------------       -----
+     putchar                35
+     ?Subroutine0            7
+     printchar              48
+     ?Subroutine8            9
+     prints                159
+     ?Subroutine1            5
+     ?Subroutine7            9
+     ?Subroutine11           8
+     ?Subroutine6           16
+     ?Subroutine9           20
+     printi                364
+     print                 583
+     ?Subroutine4            3
+     ??Subroutine13_0        6
+     ??Subroutine14_0        4
+     ?Subroutine10          15
+     ?Subroutine3           20
+     ?Subroutine12          16
+     printf                 39
+     ?Subroutine2            8
+     ?Subroutine5           30
+     sprintf                52
+     ??putchar?relay         6
+     ??printchar?relay       6
+     ??prints?relay          6
+     ??printi?relay          6
+     ??print?relay           6
+     ??printf?relay          6
+     ??sprintf?relay         6
+     ?<Constant "(null)">    7
+
+ 
+ 1 456 bytes in segment BANKED_CODE
+    42 bytes in segment BANK_RELAYS
+     7 bytes in segment XDATA_ROM_C
+ 
+ 1 498 bytes of CODE  memory
+     7 bytes of CONST memory
+
+Errors: none
+Warnings: none
