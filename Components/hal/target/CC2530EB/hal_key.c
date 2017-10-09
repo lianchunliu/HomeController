@@ -119,6 +119,8 @@
  *                                        GLOBAL VARIABLES
  **************************************************************************************************/
 static uint8 halKeySavedKeys;     /* used to store previous key state in polling mode */
+static uint8 mySavedKeys;
+
 static halKeyCBack_t pHalKeyProcessFunction;
 static uint8 HalKeyConfigured;
 bool Hal_KeyIntEnable;            /* interrupt enable/disable flag */
@@ -149,7 +151,7 @@ void HalKeyInit( void )
 {
   /* Initialize previous key to 0 */
   halKeySavedKeys = 0;
-
+  mySavedKeys = 0;
 
     
 
@@ -207,7 +209,7 @@ void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
     
     P0SEL &= ~0x40;     //设置P0.6为普通IO口  
     P0DIR &= ~0x40;     //按键接在P0.6口上，设P0.6为输入模式 
-    P0INP |= 0x40;     //P0.6 float
+    P0INP &= ~0x40;     //P0.6 
    // P2INP |= 1<<5; // down
   
     osal_start_timerEx (Hal_TaskID, HAL_KEY_EVENT, HAL_KEY_POLLING_VALUE);    /* Kick off polling */
@@ -242,18 +244,36 @@ uint8 HalKeyRead ( void )
   if (!P0_4)//S1 
   {
     keys |= HAL_KEY_SW_1; 
+  } else {
+    keys |= HAL_KEY_SW_1_HIGH;
   }
   
   
   if (!P0_5)//S2 
   {
     keys |= HAL_KEY_SW_2; 
+  } else {
+    keys |= HAL_KEY_SW_2_HIGH;
   }
 
   return keys;
 }
 
+uint8 diffKeys(uint8 savedKeys, uint8  keys);
 
+uint8 diffKeys(uint8 savedKeys, uint8  keys)
+{
+  uint8 ret = 0;
+  for (int i = 0; i < 8; i++) {
+    uint8 savedKeyBit =  savedKeys & (1 << i);
+    uint8 keyBit =  keys & (1 << i);
+    if (keyBit && !savedKeyBit) {
+      ret |=  keyBit;
+    }
+  }
+  
+  return ret;
+}
 /**************************************************************************************************
  * @fn      HalKeyPoll
  *
@@ -283,24 +303,28 @@ void HalKeyPoll (void)
   if (!P0_4)//S1 
   {
     keys |= HAL_KEY_SW_1; 
+  } else {
+    keys |= HAL_KEY_SW_1_HIGH;
   }
   
   
   if (!P0_5)//S2 
   {
-    keys |= HAL_KEY_SW_2; 
+    keys |= HAL_KEY_SW_2;   
+  } else {
+    keys |= HAL_KEY_SW_2_HIGH;
   }
-  
   
   if (!Hal_KeyIntEnable)
   {
-    if (keys == halKeySavedKeys)
+    if (keys == mySavedKeys)
     {
       /* Exit - since no keys have changed */
       return;
     }
     /* Store the current keys for comparation next time */
-    halKeySavedKeys = keys;
+    halKeySavedKeys = diffKeys(mySavedKeys, keys);
+    mySavedKeys = keys;
   }
   else
   {
@@ -310,7 +334,7 @@ void HalKeyPoll (void)
   /* Invoke Callback if new keys were depressed */
   if (keys && (pHalKeyProcessFunction))
   {
-    (pHalKeyProcessFunction) (keys, HAL_KEY_STATE_NORMAL);
+    (pHalKeyProcessFunction) (halKeySavedKeys, HAL_KEY_STATE_NORMAL);
   }
 }
 

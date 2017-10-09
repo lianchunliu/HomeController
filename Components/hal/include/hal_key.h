@@ -69,6 +69,9 @@ extern "C"
 /* Switches (keys) */
 #define HAL_KEY_SW_1 0x01  // Joystick up
 #define HAL_KEY_SW_2 0x02  // Joystick right
+#define HAL_KEY_SW_1_HIGH 0x04  // Joystick up
+#define HAL_KEY_SW_2_HIGH 0x08  // Joystick right
+  
 #define HAL_KEY_DATA_HIGH 0x10  // Joystick down
 #define HAL_KEY_DATA_LOW 0x20  // Button S1 if available
 
