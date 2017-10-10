@@ -262,13 +262,13 @@ void OnBoard_KeyCallback ( uint8 keys, uint8 state )
   if ( OnBoard_SendKeys( keys, shift ) != ZSuccess )
   {
     // Process SW1 here
-    if ( keys & HAL_KEY_SW_1 )  // Switch 1
-    {
-    }
+  //  if ( keys & HAL_KEY_SW_1 )  // Switch 1
+  //  {
+  //  }
     // Process SW2 here
-    if ( keys & HAL_KEY_SW_2 )  // Switch 2
-    {
-    }
+  //  if ( keys & HAL_KEY_SW_2 )  // Switch 2
+  //  {
+  //  }
   }
 }
 

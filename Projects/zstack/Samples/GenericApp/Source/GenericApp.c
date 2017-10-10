@@ -87,11 +87,8 @@
  */
 #define HAL_LED_OFF   1
 #define HAL_LED_ON    0
+#define LIGHT_NUM 4
 
-
-#define DATA_INPUT P0_6
-
-static uint16 lightShortAddr=0x046A;
 
 // This is the max byte count per OTA message.
 #if !defined( SERIAL_APP_TX_MAX )
@@ -111,9 +108,8 @@ static uint16 lightShortAddr=0x046A;
  */
 
 
-static uint16 lightOffTimeValue = 0;
-static uint16 currentTime = 0;
-static uint8 isLightController = 0;
+static uint16 lightOffTimeValue[LIGHT_NUM];
+static uint16 currentTime[LIGHT_NUM];
 
 // This list should be filled with Application specific Cluster IDs.
 const cId_t GenericApp_ClusterList[GENERICAPP_MAX_CLUSTERS] =
@@ -172,8 +168,23 @@ void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
 void GenericApp_SendTheMessage( void );
 void rxCB(uint8 port,uint8 event);
 static uint16 strToUint16(uint8* str);
-static void processLightToggle(afIncomingMSGPacket_t *inMsg);
+static uint8 strEqual(char* str1, char* str2);
 static void sendSendCmdMsg(uint8* cmd);
+
+void turnOffLightLater(uint16 addr, uint8 lightNum);
+void turnOnLight(uint16 addr, uint8 lightNum);
+void lightToggle(uint16 addr, uint8 lightNum);
+
+void setLightMode(uint8 lightNum, uint8 mode);
+
+void processLightStatus(afIncomingMSGPacket_t *pkt);
+void processLightOn(afIncomingMSGPacket_t *pkt);
+void processLightOff(afIncomingMSGPacket_t *pkt);
+void processLightToggle(afIncomingMSGPacket_t *inMsg);
+uint16 strToDec(uint8 * str);
+
+static void processLightOffLater(afIncomingMSGPacket_t *inMsg);
+
 
 /*********************************************************************
  * NETWORK LAYER CALLBACKS
@@ -243,32 +254,31 @@ void GenericApp_Init( byte task_id )
     HalLcdWriteString( "GenericApp", HAL_LCD_LINE_1 );
 #endif
     
+   
   //ZDO_RegisterForZDOMsg( GenericApp_TaskID, End_Device_Bind_rsp );
   //ZDO_RegisterForZDOMsg( GenericApp_TaskID, Match_Desc_rsp );
+   
+    for (int i = 0; i < LIGHT_NUM; i++) {
+      
+      lightOffTimeValue[i] = 0;
+      currentTime[i] = 0;
+    }
     
-    
-  HalLedSet( HAL_LED_1, HAL_LED_MODE_ON );
+  // turn on all light by default
+  HalLedSet( HAL_LED_ALL, HAL_LED_MODE_ON );
   
-  if (strStartWith((uint8*)getMyName(), "DoorSensor")) {
-    isLightController = 0;
-    lightShortAddr=0x046A;
-  } else if (strStartWith((uint8*)getMyName(), "RestroomSensor")) {
-    isLightController = 0;
-    lightShortAddr=0x2DC0;
-  } else {
-    isLightController = 1;
-  }
+ 
   
   printf("GenericApp_Init[%s] Done!\n", getMyName());
   
 }
 
-static void resetCurrentTime(void);
+static void resetCurrentTime(uint8 lightNumber);
 
-void resetCurrentTime(void)
+void resetCurrentTime(uint8 lightNumber)
 {
-  currentTime = 0;
-  lightOffTimeValue = 0;
+  currentTime[lightNumber] = 0;
+  lightOffTimeValue[lightNumber] = 0;
 }
 /*********************************************************************
  * @fn      GenericApp_ProcessEvent
@@ -337,19 +347,15 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
               || (GenericApp_NwkState == DEV_ROUTER)
               || (GenericApp_NwkState == DEV_END_DEVICE) )
           {
-            if (isLightController) {
-              HalLedSet ( HAL_LED_1, HAL_LED_MODE_ON );
-            }
+              
+            HalLedSet ( HAL_LED_ALL, HAL_LED_MODE_ON );
+           
           //  byte* extAddr = NLME_GetExtAddr();
             uint16 shortAddr = NLME_GetShortAddr();
             uint16 parentShortAddr = NLME_GetCoordShortAddr();
             
             printf("Addr=%04X, ParentAddr=%04X\n", shortAddr, parentShortAddr);
             
-            // Start sending "the" message in a regular interval.
-           // osal_start_timerEx( GenericApp_TaskID,
-           //                     GENERICAPP_SEND_MSG_EVT,
-           //                   GENERICAPP_SEND_MSG_TIMEOUT );
             osal_start_timerEx( GenericApp_TaskID,
                         GENERICAPP_LIGHT_OFF_LATER_EVT,
                       GENERICAPP_LIGHT_OFF_LATER_TIMEOUT );
@@ -392,16 +398,18 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
    if ( events & GENERICAPP_LIGHT_OFF_LATER_EVT )
   {
     
-    currentTime++;
-    
-    if (lightOffTimeValue > 0 && currentTime > lightOffTimeValue) {
-      
-      printf("current : %d, LightOffTimeValue: %d\n", currentTime, lightOffTimeValue);
-      
-      HalLedSet ( HAL_LED_1, HAL_LED_MODE_OFF );
-      
-      resetCurrentTime();
-      
+    for (uint8 i = 0; i < LIGHT_NUM; i++) {
+      currentTime[i]++;
+        
+      if (lightOffTimeValue[i] > 0 && currentTime[i] > lightOffTimeValue[i]) {
+        
+        printf("current[%d] : %d, LightOffTimeValue[%d]: %d\n", i, currentTime[i], i, lightOffTimeValue[i]);
+        
+        setLightMode(i, HAL_LED_MODE_OFF);
+        
+        resetCurrentTime(i);
+        
+      }
     }
 
     osal_start_timerEx( GenericApp_TaskID,
@@ -416,98 +424,119 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
   return 0;
 }
 
-void processLightToggle(afIncomingMSGPacket_t *inMsg)
+void setLightMode(uint8 lightNum, uint8 mode)
 {
-  uint16 shortAddr = NLME_GetShortAddr();
-  uint16 parentShortAddr = NLME_GetCoordShortAddr();
-  char buf[48];
-  int len = sprintf(buf, "LightToggleResp %s %04X %04X", getMyName(), shortAddr, parentShortAddr);
-  
-  afAddrType_t P2P_DstAddr;
-  P2P_DstAddr.addrMode = (afAddrMode_t)Addr16Bit;
-  P2P_DstAddr.endPoint = GENERICAPP_ENDPOINT;
-  P2P_DstAddr.addr.shortAddr = inMsg->srcAddr.addr.shortAddr;
-  
-  HalLedSet ( HAL_LED_1, HAL_LED_MODE_TOGGLE );
-  
-  // disable light auto off
-  resetCurrentTime();
-  
-  if ( AF_DataRequest( &P2P_DstAddr, &GenericApp_epDesc,
-                       GENERICAPP_CLUSTERID,
-                       osal_strlen(buf)+1,
-                       (uint8*)buf,
-                       &GenericApp_TransID,
-                       AF_DISCV_ROUTE, AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
-  {
-    // Successfully requested to be sent.
+  uint8 led = 0;
+  switch(lightNum) {
+  case 0: led = HAL_LED_1; break;
+  case 1: led = HAL_LED_2; break;
+  case 2: led = HAL_LED_3; break;
+  case 3: led = HAL_LED_4; break;
+  default:
+    printf("invalid lightNumber: %d\n", lightNum);
+    return;
   }
-  else
-  {
-    printf("send ReportNamesResp error %s\n", buf);
-  }
-  
+        
+  HalLedSet ( led, mode);
 }
 
+char* getLightStatus(uint8 lightNum);
 
-void processLightOn(afIncomingMSGPacket_t *inMsg)
+char* getLightStatus(uint8 lightNum)
 {
-  uint16 shortAddr = NLME_GetShortAddr();
-  uint16 parentShortAddr = NLME_GetCoordShortAddr();
-  char buf[48];
-  int len = sprintf(buf, "LightOnResp %s %04X %04X", getMyName(), shortAddr, parentShortAddr);
-  
-  afAddrType_t P2P_DstAddr;
-  P2P_DstAddr.addrMode = (afAddrMode_t)Addr16Bit;
-  P2P_DstAddr.endPoint = GENERICAPP_ENDPOINT;
-  P2P_DstAddr.addr.shortAddr = inMsg->srcAddr.addr.shortAddr;
-  
-  HalLedSet ( HAL_LED_1, HAL_LED_MODE_ON );
-  
-  // disable light auto off
-  resetCurrentTime();
-  
-  if ( AF_DataRequest( &P2P_DstAddr, &GenericApp_epDesc,
-                       GENERICAPP_CLUSTERID,
-                       osal_strlen(buf)+1,
-                       (uint8*)buf,
-                       &GenericApp_TransID,
-                       AF_DISCV_ROUTE, AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
-  {
-    // Successfully requested to be sent.
-  }
-  else
-  {
-    printf("send ReportNamesResp error %s\n", buf);
+  uint8 led = 0;
+  switch(lightNum) {
+  case 0: led = HAL_LED_1; break;
+  case 1: led = HAL_LED_2; break;
+  case 2: led = HAL_LED_3; break;
+  case 3: led = HAL_LED_4; break;
+  default:
+    printf("invalid lightNumber: %d\n", lightNum);
+    return "Off";
   }
   
+  if (HalLedGetState() & led) {
+    return "On";
+  } else {
+    return "Off";
+  }
+   
 }
 
-static void processLightOffLater(afIncomingMSGPacket_t *inMsg);
+void processLightCmd(afIncomingMSGPacket_t *pkt, char* cmd, uint8 mode);
+
+void processLightToggle(afIncomingMSGPacket_t *pkt)
+{
+  processLightCmd(pkt, "LightToggle", HAL_LED_MODE_TOGGLE);
+}
+
+void processLightOn(afIncomingMSGPacket_t *pkt)
+{
+  processLightCmd(pkt, "LightOn", HAL_LED_MODE_ON);
+}
+
+void processLightOff(afIncomingMSGPacket_t *pkt)
+{
+  processLightCmd(pkt, "LightOff", HAL_LED_MODE_OFF);
+}
+
+void processLightStatus(afIncomingMSGPacket_t *pkt)
+{
+  processLightCmd(pkt, "LightStatus", 0);
+}
 
 void processLightOffLater(afIncomingMSGPacket_t *pkt)
 {
-  uint16 shortAddr = NLME_GetShortAddr();
-  uint16 parentShortAddr = NLME_GetCoordShortAddr();
-  char buf[48];
-  int len = sprintf(buf, "LightOffLaterResp %s %04X %04X", getMyName(), shortAddr, parentShortAddr);
+  processLightCmd(pkt, "LightOffLater", 0);  
+}
+
+void processLightCmd(afIncomingMSGPacket_t *pkt, char* cmd, uint8 mode)
+{  
+  uint8* cmdData = pkt->cmd.Data;
+  if (osal_strlen((char*)cmdData) < osal_strlen(cmd) + 2) {// cmd lightNumber
+    printf("invalid request: %s\n", cmdData);
+    return;
+  }
   
+  uint8 lightNum = cmdData[osal_strlen(cmd) + 1] - '0';
+  if (lightNum < 0 || lightNum >= LIGHT_NUM) {
+    printf("invalid request: %s\n", cmdData);
+    return;
+  }
+  
+  
+  char buf[48];
+  
+  uint16 shortAddr = NLME_GetShortAddr();
   afAddrType_t P2P_DstAddr;
   P2P_DstAddr.addrMode = (afAddrMode_t)Addr16Bit;
   P2P_DstAddr.endPoint = GENERICAPP_ENDPOINT;
   P2P_DstAddr.addr.shortAddr = pkt->srcAddr.addr.shortAddr;
   
-  uint8* cmdData = pkt->cmd.Data;
   
-  cmdData += osal_strlen("LightOffLater ");
   
-  uint16 plusTime = strToUint16(cmdData);
+  if (strEqual((char*)cmd, "LightStatus")) {
+    sprintf(buf, "%sResp %d %s %04X %s", cmd, lightNum, getLightStatus(lightNum), shortAddr, getMyName());
+  } else if (strEqual((char*)cmd, "LightOffLater")) {
+    
+    uint16 delayTime = 0;
+    delayTime = strToDec(cmdData + osal_strlen("LightOffLater 1 "));
+    
+    resetCurrentTime(lightNum);
   
-  resetCurrentTime();
+    lightOffTimeValue[lightNum] = currentTime[lightNum] + delayTime;
   
-  lightOffTimeValue = currentTime + plusTime;
+   // printf("delayTime %d, LightOffTimeValue: %d, currentTime=%d, lightNum=%d\n", delayTime, lightOffTimeValue, currentTime, lightNum);
   
-  printf("plusTime %d, LightOffTimeValue: %d, currentTime=%d\n", plusTime, lightOffTimeValue, currentTime);
+    sprintf(buf, "%sResp %d %04X %s", cmd, lightNum, shortAddr, getMyName());
+    
+  } else {
+    setLightMode(lightNum, mode);
+    // disable light auto off
+    resetCurrentTime(lightNum);
+    
+    sprintf(buf, "%sResp %d %04X %s", cmd, lightNum, shortAddr, getMyName());
+  }
   
   if ( AF_DataRequest( &P2P_DstAddr, &GenericApp_epDesc,
                        GENERICAPP_CLUSTERID,
@@ -520,43 +549,11 @@ void processLightOffLater(afIncomingMSGPacket_t *pkt)
   }
   else
   {
-    printf("send ReportNamesResp error %s\n", buf);
+    printf("send %sResp %d error %s\n", cmd, lightNum, buf);
   }
   
 }
 
-
-static void processLightOff(afIncomingMSGPacket_t *inMsg);
-
-void processLightOff(afIncomingMSGPacket_t *inMsg)
-{
-  uint16 shortAddr = NLME_GetShortAddr();
-  uint16 parentShortAddr = NLME_GetCoordShortAddr();
-  char buf[48];
-  int len = sprintf(buf, "LightOffResp %s %04X %04X", getMyName(), shortAddr, parentShortAddr);
-  
-  afAddrType_t P2P_DstAddr;
-  P2P_DstAddr.addrMode = (afAddrMode_t)Addr16Bit;
-  P2P_DstAddr.endPoint = GENERICAPP_ENDPOINT;
-  P2P_DstAddr.addr.shortAddr = inMsg->srcAddr.addr.shortAddr;
-  
-  HalLedSet ( HAL_LED_1, HAL_LED_MODE_OFF );
-  
-  if ( AF_DataRequest( &P2P_DstAddr, &GenericApp_epDesc,
-                       GENERICAPP_CLUSTERID,
-                       osal_strlen(buf)+1,
-                       (uint8*)buf,
-                       &GenericApp_TransID,
-                       AF_DISCV_ROUTE, AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
-  {
-    // Successfully requested to be sent.
-  }
-  else
-  {
-    printf("send ReportNamesResp error %s\n", buf);
-  }
-  
-}
 
 
 void processReportNames(afIncomingMSGPacket_t *inMsg)
@@ -609,13 +606,13 @@ void GenericApp_ProcessZDOMsgs( zdoIncomingMsg_t *inMsg )
       if ( ZDO_ParseBindRsp( inMsg ) == ZSuccess )
       {
         // Light LED
-        HalLedSet( HAL_LED_4, HAL_LED_MODE_ON );
+//        HalLedSet( HAL_LED_4, HAL_LED_MODE_ON );
       }
 #if defined(BLINK_LEDS)
       else
       {
         // Flash LED to show failure
-        HalLedSet ( HAL_LED_4, HAL_LED_MODE_FLASH );
+ //       HalLedSet ( HAL_LED_4, HAL_LED_MODE_FLASH );
       }
 #endif
       break;
@@ -633,7 +630,7 @@ void GenericApp_ProcessZDOMsgs( zdoIncomingMsg_t *inMsg )
             GenericApp_DstAddr.endPoint = pRsp->epList[0];
 
             // Light LED
-            HalLedSet( HAL_LED_4, HAL_LED_MODE_ON );
+//            HalLedSet( HAL_LED_4, HAL_LED_MODE_ON );
           }
           osal_mem_free( pRsp );
         }
@@ -642,25 +639,26 @@ void GenericApp_ProcessZDOMsgs( zdoIncomingMsg_t *inMsg )
   }
 }
 
-void turnOffLightLater(void);
-void turnOnLight(void);
 
-void turnOffLightLater(void)
+void turnOffLightLater(uint16 addr, uint8 lightNum)
 {
-        char buf[48];
-        sprintf(buf, "%04X LightOffLater 0040", lightShortAddr);    
-        sendSendCmdMsg((uint8*)buf);
-  
+  char buf[48];
+  sprintf(buf, "%04X LightOffLater %d 60", addr, lightNum);
+  sendSendCmdMsg((uint8*)buf);
 }
 
-void turnOnLight(void)
+void turnOnLight(uint16 addr, uint8 lightNum)
 {
-          char buf[48];
-         sprintf(buf, "%04X LightOn", lightShortAddr);
-    
-         sendSendCmdMsg((uint8*)buf);
- 
-  
+  char buf[48];
+  sprintf(buf, "%04X LightOn %d", addr, lightNum);
+  sendSendCmdMsg((uint8*)buf);
+}
+
+void lightToggle(uint16 addr, uint8 lightNum)
+{
+  char buf[48];
+  sprintf(buf, "%04X LightToggle %d", addr, lightNum);
+  sendSendCmdMsg((uint8*)buf);
 }
 
 /*********************************************************************
@@ -679,43 +677,45 @@ void turnOnLight(void)
  */
 void GenericApp_HandleKeys( byte shift, byte keys )
 {
-    if ( keys & HAL_KEY_SW_1 )
-    {
-      printf("S1 pressed\n");
-    }
-
-    if ( keys & HAL_KEY_SW_2 )
-    {
-      printf("S2 pressed\n");
+ 
+  uint8* myName = (uint8*)getMyName();
+  if (strEqual((char*)myName, "DoorSensor")) {
+    if (keys & HAL_KEY_3_LOW) {
+      turnOffLightLater(0x046A, 0);
     }
     
-    if (!isLightController) {
-      
-      uint8* myName = (uint8*)getMyName();
-      
-      if (keys & HAL_KEY_DATA_LOW) {
-        printf("DataLow pressed\n");
-        if (strStartWith(myName, "DoorSensor")) {
-          turnOffLightLater();    
-        }
-        
-        
-        if (strStartWith(myName, "RestroomSensor")) {
-          turnOnLight();
-        }
-      }
-      
-      if (keys & HAL_KEY_DATA_HIGH) {
-         printf("DataHigh pressed\n");
-        if (strStartWith(myName, "DoorSensor")) {
-          turnOnLight();
-        }
-        
-         if (strStartWith(myName, "RestroomSensor")) {
-          turnOffLightLater();
-        }
-      }    
+    if (keys & HAL_KEY_3_HIGH) {
+      turnOnLight(0x046A, 0);
     }
+  } // DoorSensor
+  
+  if (strEqual((char*)myName, "RestroomSensor")) {
+    if (keys & HAL_KEY_3_LOW) {
+      turnOnLight(0x2DC0,0);
+    }
+    
+    if (keys & HAL_KEY_3_HIGH) {
+      turnOffLightLater(0x2DC0, 0);
+    }
+    
+  }
+  
+  
+  if (strEqual((char*)myName, "MainLight")) {
+    if (keys & HAL_KEY_1_LOW || keys & HAL_KEY_1_HIGH) {
+      lightToggle(0x2DC0, 0);
+    }
+    
+    if (keys & HAL_KEY_2_LOW || keys & HAL_KEY_2_HIGH) {
+      lightToggle(0x2DC0, 1);
+    }
+    
+    if (keys & HAL_KEY_3_LOW || keys & HAL_KEY_3_HIGH) {
+      lightToggle(0x2DC0, 2);
+    }
+    
+  }
+   
 }
 
 /*********************************************************************
@@ -734,6 +734,21 @@ static uint8 strStartWith(uint8* str1, uint8* str2)
   return 1;
 }
 
+static uint8 strEqual(char* str1, char* str2)
+{
+  while (*str2 && *str1) {
+    if (*str1 != *str2) {
+      return 0;
+    }
+    str1++;
+    str2++;
+  }
+  if (*str1 == *str2) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 /*********************************************************************
  * @fn      GenericApp_MessageMSGCB
  *
@@ -761,6 +776,10 @@ void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
         
       } else if (strStartWith(cmdData, "ReportNames")) {
          processReportNames(pkt);
+      } else if (strStartWith(cmdData, "LightStatusResp")) {
+        // nothing to do
+      } else if (strStartWith(cmdData, "LightStatus")) {
+         processLightStatus(pkt);
       } else if (strStartWith(cmdData, "LightOnResp")) {
         // nothing to do
       } else if (strStartWith(cmdData, "LightOn")) {
@@ -877,6 +896,15 @@ uint16 strToUint16(uint8* str)
     return findHexValue(str[0])*16*16*16 + findHexValue(str[1])*16*16 + findHexValue(str[2])*16 + findHexValue(str[3]);
 }
 
+uint16 strToDec(uint8 * str)
+{
+  uint16 ret = 0;
+  while (*str && (*str != ' ')) {
+    ret = ret*10 + (*str - '0');
+    str++;
+  }
+  return ret;
+}
 
 void sendSendCmdMsg(uint8* cmd)
 {
@@ -936,7 +964,7 @@ static void processUartCB(uint8* buf, uint8 len)
     return; 
   }
   
-  printf("processUartCB: %s\n", buf);
+ // printf("processUartCB: %s\n", buf);
   
   id = MY_NAME_NV_ID; // for name
   if (strStartWith(buf, "RNV Name")) {

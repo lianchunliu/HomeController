@@ -153,8 +153,6 @@ void HalKeyInit( void )
   halKeySavedKeys = 0;
   mySavedKeys = 0;
 
-    
-
   /* Initialize callback function */
   pHalKeyProcessFunction  = NULL;
 
@@ -185,10 +183,7 @@ void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
   if (Hal_KeyIntEnable)
   {
     /* Rising/Falling edge configuratinn */
-
-
-
-   
+    
     /* Do this only after the hal_key is configured - to work with sleep stuff */
     if (HalKeyConfigured == TRUE)
     {
@@ -206,11 +201,13 @@ void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
     P0DIR &= ~0x20;     //按键接在P0.5口上，设P0.5为输入模式 
     P0INP &= ~0x20;     //打开P0.5上拉电阻
     
-    
     P0SEL &= ~0x40;     //设置P0.6为普通IO口  
     P0DIR &= ~0x40;     //按键接在P0.6口上，设P0.6为输入模式 
     P0INP &= ~0x40;     //P0.6 
-   // P2INP |= 1<<5; // down
+   
+    P0SEL &= ~0x80;     //设置P0.7为普通IO口  
+    P0DIR &= ~0x80;     //按键接在P0.7口上，设P0.7为输入模式 
+    P0INP &= ~0x80;     //P0.7 
   
     osal_start_timerEx (Hal_TaskID, HAL_KEY_EVENT, HAL_KEY_POLLING_VALUE);    /* Kick off polling */
   }
@@ -232,30 +229,38 @@ void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
 uint8 HalKeyRead ( void )
 {
   uint8 keys = 0;
-
-  if (P0_6)//S0
-  {
-    keys |= HAL_KEY_DATA_HIGH; 
-  } else {
-    keys |= HAL_KEY_DATA_LOW; 
-  }
-
   
-  if (!P0_4)//S1 
+  if (P0_4)//S1 
   {
-    keys |= HAL_KEY_SW_1; 
+    keys |= HAL_KEY_1_HIGH; 
   } else {
-    keys |= HAL_KEY_SW_1_HIGH;
+    keys |= HAL_KEY_1_LOW;
   }
   
   
-  if (!P0_5)//S2 
+  if (P0_5)//S2 
   {
-    keys |= HAL_KEY_SW_2; 
+    keys |= HAL_KEY_2_HIGH; 
   } else {
-    keys |= HAL_KEY_SW_2_HIGH;
+    keys |= HAL_KEY_2_LOW;
   }
 
+  
+  if (P0_6)
+  {
+    keys |= HAL_KEY_3_HIGH; 
+  } else {
+    keys |= HAL_KEY_3_LOW; 
+  }
+  
+  
+  if (P0_7)
+  {
+    keys |= HAL_KEY_4_HIGH; 
+  } else {
+    keys |= HAL_KEY_4_LOW; 
+  }
+  
   return keys;
 }
 
@@ -285,35 +290,7 @@ uint8 diffKeys(uint8 savedKeys, uint8  keys)
  **************************************************************************************************/
 void HalKeyPoll (void)
 {
-  uint8 keys = 0;
-
-/* if ((HAL_KEY_JOY_MOVE_PORT & HAL_KEY_JOY_MOVE_BIT))  // Key is active HIGH 
-  {
-    keys = halGetJoyKeyInput();
-  }
-*/
-  if (P0_6)//S0
-  {
-    keys |= HAL_KEY_DATA_HIGH; 
-  } else {
-    keys |= HAL_KEY_DATA_LOW; 
-  }
-
-  
-  if (!P0_4)//S1 
-  {
-    keys |= HAL_KEY_SW_1; 
-  } else {
-    keys |= HAL_KEY_SW_1_HIGH;
-  }
-  
-  
-  if (!P0_5)//S2 
-  {
-    keys |= HAL_KEY_SW_2;   
-  } else {
-    keys |= HAL_KEY_SW_2_HIGH;
-  }
+  uint8 keys = HalKeyRead();
   
   if (!Hal_KeyIntEnable)
   {
