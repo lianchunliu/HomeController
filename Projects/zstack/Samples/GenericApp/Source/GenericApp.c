@@ -168,12 +168,14 @@ void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
 void GenericApp_SendTheMessage( void );
 void rxCB(uint8 port,uint8 event);
 static uint16 strToUint16(uint8* str);
-static uint8 strEqual(char* str1, char* str2);
+
 static void sendSendCmdMsg(uint8* cmd);
+uint16 strToDec(uint8 * str);
 
 void turnOffLightLater(uint16 addr, uint8 lightNum);
 void turnOnLight(uint16 addr, uint8 lightNum);
 void lightToggle(uint16 addr, uint8 lightNum);
+void processLightClick(afIncomingMSGPacket_t *pkt);
 
 void setLightMode(uint8 lightNum, uint8 mode);
 
@@ -267,8 +269,16 @@ void GenericApp_Init( byte task_id )
   // turn on all light by default
   HalLedSet( HAL_LED_ALL, HAL_LED_MODE_ON );
   
- 
+#if ZG_BUILD_ENDDEVICE_TYPE
   
+  P0INP  &= ~0X10;   //设置P0口输入电路模式为上拉/ 下拉
+        P0IEN |= 0X10;     //P01设置为中断方式 
+        PICTL |= 0X10;     // 下降沿触发     
+   IEN1 |= 0X20;      //  开P0口总中断 
+        P0IFG |= 0x00;     //清中断标志
+	EA = 1; 
+#endif
+        
   printf("GenericApp_Init[%s] Done!\n", getMyName());
   
 }
@@ -280,6 +290,25 @@ void resetCurrentTime(uint8 lightNumber)
   currentTime[lightNumber] = 0;
   lightOffTimeValue[lightNumber] = 0;
 }
+
+void SysPowerMode(uint8 mode);
+
+void SysPowerMode(uint8 mode) 
+{ 
+ uint8 i,j; 
+ i = mode; 
+ if(mode<4) 
+ {  
+    SLEEPCMD |= i;     // 设置系统睡眠模式 
+  for(j=0;j<4;j++); 
+    PCON = 0x01;         // 进入睡眠模式 ,通过中断打断
+  } 
+ else 
+ { 
+      PCON = 0x00;             // 系统唤醒 ，通过中断打断
+ } 
+}
+
 /*********************************************************************
  * @fn      GenericApp_ProcessEvent
  *
@@ -348,7 +377,12 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
               || (GenericApp_NwkState == DEV_END_DEVICE) )
           {
               
-            HalLedSet ( HAL_LED_ALL, HAL_LED_MODE_ON );
+            
+            if (strEqual("AirCond", getMyName())) {
+              HalLedSet ( HAL_LED_1, HAL_LED_MODE_OFF);
+            } else {
+              HalLedSet ( HAL_LED_ALL, HAL_LED_MODE_ON );
+            }
            
           //  byte* extAddr = NLME_GetExtAddr();
             uint16 shortAddr = NLME_GetShortAddr();
@@ -359,6 +393,12 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
             osal_start_timerEx( GenericApp_TaskID,
                         GENERICAPP_LIGHT_OFF_LATER_EVT,
                       GENERICAPP_LIGHT_OFF_LATER_TIMEOUT );
+            
+            if (GenericApp_NwkState == DEV_END_DEVICE) {
+               osal_start_timerEx( GenericApp_TaskID,
+                            GENERICAPP_SLEEP_LATER_EVT,
+                          1000 );
+            }
           }
           
           
@@ -395,29 +435,49 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
     return (events ^ GENERICAPP_SEND_MSG_EVT);
   }
   
-   if ( events & GENERICAPP_LIGHT_OFF_LATER_EVT )
+  if ( events & GENERICAPP_LIGHT_OFF_LATER_EVT )
   {
     
-    for (uint8 i = 0; i < LIGHT_NUM; i++) {
-      currentTime[i]++;
-        
-      if (lightOffTimeValue[i] > 0 && currentTime[i] > lightOffTimeValue[i]) {
-        
-        printf("current[%d] : %d, LightOffTimeValue[%d]: %d\n", i, currentTime[i], i, lightOffTimeValue[i]);
-        
-        setLightMode(i, HAL_LED_MODE_OFF);
-        
-        resetCurrentTime(i);
-        
+      for (uint8 i = 0; i < LIGHT_NUM; i++) {
+        currentTime[i]++;
+          
+        if (lightOffTimeValue[i] > 0 && currentTime[i] > lightOffTimeValue[i]) {
+          
+          printf("current[%d] : %d, LightOffTimeValue[%d]: %d\n", i, currentTime[i], i, lightOffTimeValue[i]);
+          
+          setLightMode(i, HAL_LED_MODE_OFF);
+          
+          resetCurrentTime(i);
+          
+        }
       }
-    }
-
-    osal_start_timerEx( GenericApp_TaskID,
-                        GENERICAPP_LIGHT_OFF_LATER_EVT,
-                      GENERICAPP_LIGHT_OFF_LATER_TIMEOUT );
+  
+      osal_start_timerEx( GenericApp_TaskID,
+                          GENERICAPP_LIGHT_OFF_LATER_EVT,
+                        GENERICAPP_LIGHT_OFF_LATER_TIMEOUT );
+      
+      // return unprocessed events
+      return (events ^ GENERICAPP_LIGHT_OFF_LATER_EVT);
+  }
+  
+  if ( events & GENERICAPP_SLEEP_LATER_EVT )
+  {
     
-    // return unprocessed events
-    return (events ^ GENERICAPP_LIGHT_OFF_LATER_EVT);
+     static int n = 1;
+     
+     printf("awake[%d]...\n", n);
+     
+     if (n++ % 10 == 0) {
+       printf("sleep now\n");
+      SysPowerMode(3);
+     }
+  
+      osal_start_timerEx( GenericApp_TaskID,
+                          GENERICAPP_SLEEP_LATER_EVT,
+                        1000 );
+      
+      // return unprocessed events
+      return (events ^ GENERICAPP_SLEEP_LATER_EVT);
   }
 
   // Discard unknown events
@@ -436,9 +496,31 @@ void setLightMode(uint8 lightNum, uint8 mode)
     printf("invalid lightNumber: %d\n", lightNum);
     return;
   }
-        
-  HalLedSet ( led, mode);
+  
+  if (mode == HAL_LED_MODE_BLINK) {
+      //printf("start blink\n");
+      
+      HalLedBlink (led, 1, 50, 1000);
+  } else {
+    HalLedSet ( led, mode);
+  }
 }
+
+
+
+char* getKeyStatus(uint8 keyNum);
+
+char* getKeyStatus(uint8 keyNum)
+{
+  
+  if (HalKeyRead() & HAL_KEY_3_HIGH) {
+    return "Off";
+  } else {
+    return "On";
+  }
+   
+}
+
 
 char* getLightStatus(uint8 lightNum);
 
@@ -490,6 +572,11 @@ void processLightOffLater(afIncomingMSGPacket_t *pkt)
   processLightCmd(pkt, "LightOffLater", 0);  
 }
 
+void processLightClick(afIncomingMSGPacket_t *pkt)
+{
+  processLightCmd(pkt, "LightClick", HAL_LED_MODE_BLINK);  
+}
+
 void processLightCmd(afIncomingMSGPacket_t *pkt, char* cmd, uint8 mode)
 {  
   uint8* cmdData = pkt->cmd.Data;
@@ -516,7 +603,15 @@ void processLightCmd(afIncomingMSGPacket_t *pkt, char* cmd, uint8 mode)
   
   
   if (strEqual((char*)cmd, "LightStatus")) {
-    sprintf(buf, "%sResp %d %s %04X %s", cmd, lightNum, getLightStatus(lightNum), shortAddr, getMyName());
+    if (strEqual("AirCond", getMyName())) {
+      
+      
+      sprintf(buf, "%sResp %d %s %04X %s", cmd, lightNum, getKeyStatus(HAL_KEY_3_HIGH), shortAddr, getMyName());
+    } else {
+      sprintf(buf, "%sResp %d %s %04X %s", cmd, lightNum, getLightStatus(lightNum), shortAddr, getMyName());  
+    }
+    
+    
   } else if (strEqual((char*)cmd, "LightOffLater")) {
     
     uint16 delayTime = 0;
@@ -677,7 +772,18 @@ void lightToggle(uint16 addr, uint8 lightNum)
  */
 void GenericApp_HandleKeys( byte shift, byte keys )
 {
- 
+  /*************************** logger ***********************************/
+  if (keys & HAL_KEY_1_LOW) printf("HandleKeys: HAL_KEY_1_LOW\n");
+  if (keys & HAL_KEY_2_LOW) printf("HandleKeys: HAL_KEY_2_LOW\n");
+  if (keys & HAL_KEY_3_LOW) printf("HandleKeys: HAL_KEY_3_LOW\n");
+  if (keys & HAL_KEY_4_LOW) printf("HandleKeys: HAL_KEY_4_LOW\n");
+  if (keys & HAL_KEY_1_HIGH) printf("HandleKeys: HAL_KEY_1_HIGH\n");
+  if (keys & HAL_KEY_2_HIGH) printf("HandleKeys: HAL_KEY_2_HIGH\n");
+  if (keys & HAL_KEY_3_HIGH) printf("HandleKeys: HAL_KEY_3_HIGH\n");
+  if (keys & HAL_KEY_4_HIGH) printf("HandleKeys: HAL_KEY_4_HIGH\n");
+  
+   
+ /************************* DoorSensor ***************************/
   uint8* myName = (uint8*)getMyName();
   if (strEqual((char*)myName, "DoorSensor")) {
     if (keys & HAL_KEY_3_LOW) {
@@ -687,8 +793,9 @@ void GenericApp_HandleKeys( byte shift, byte keys )
     if (keys & HAL_KEY_3_HIGH) {
       turnOnLight(0x046A, 0);
     }
-  } // DoorSensor
+  } // 
   
+/************************ RestroomSensor ****************************/
   if (strEqual((char*)myName, "RestroomSensor")) {
     if (keys & HAL_KEY_3_LOW) {
       turnOnLight(0x2DC0,0);
@@ -698,8 +805,8 @@ void GenericApp_HandleKeys( byte shift, byte keys )
       turnOffLightLater(0x2DC0, 0);
     }
     
-  }
-  
+  } // 
+/*********************** MainLight ******************************/
   
   if (strEqual((char*)myName, "MainLight")) {
     if (keys & HAL_KEY_1_LOW || keys & HAL_KEY_1_HIGH) {
@@ -715,7 +822,16 @@ void GenericApp_HandleKeys( byte shift, byte keys )
     }
     
   }
-   
+  /************************ BedLight *******************************/
+  if (strEqual((char*)myName, "BedLight")) {
+    if (keys & HAL_KEY_1_LOW) {
+      
+      SysPowerMode(3);
+    }
+    
+    
+  }
+
 }
 
 /*********************************************************************
@@ -734,7 +850,7 @@ static uint8 strStartWith(uint8* str1, uint8* str2)
   return 1;
 }
 
-static uint8 strEqual(char* str1, char* str2)
+uint8 strEqual(char* str1, char* str2)
 {
   while (*str2 && *str1) {
     if (*str1 != *str2) {
@@ -796,6 +912,10 @@ void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
         // nothing to do
       } else if (strStartWith(cmdData, "LightOff")) {
          processLightOff(pkt);
+      } else if (strStartWith(cmdData, "LightClickResp")) {
+        // nothing to do
+      } else if (strStartWith(cmdData, "LightClick")) {
+         processLightClick(pkt);
       }
       break;
   }
@@ -940,7 +1060,7 @@ void sendSendCmdMsg(uint8* cmd)
 
 char myName[MY_UART_BUF_SIZE];
 
-static char* getMyName()
+char* getMyName()
 {
     if (osal_nv_read(MY_NAME_NV_ID, 0, MY_UART_BUF_SIZE, myName ) == ZSUCCESS) {
       

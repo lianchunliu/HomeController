@@ -49,6 +49,7 @@ extern "C"
  * INCLUDES
  */
 #include "ZComDef.h"
+#include "AF.h"
 
 /*********************************************************************
  * CONSTANTS
@@ -71,8 +72,9 @@ extern "C"
 #define GENERICAPP_LIGHT_OFF_LATER_TIMEOUT 1000
   
 // Application Events (OSAL) - These are bit weighted definitions.
-#define GENERICAPP_SEND_MSG_EVT       0x0001
-#define GENERICAPP_LIGHT_OFF_LATER_EVT       0x0002
+#define GENERICAPP_SEND_MSG_EVT           0x0001
+#define GENERICAPP_LIGHT_OFF_LATER_EVT    0x0002
+#define GENERICAPP_SLEEP_LATER_EVT        0x0004
   
 /*********************************************************************
  * MACROS
@@ -82,8 +84,9 @@ extern "C"
  * FUNCTIONS
  */
 static void processUartCB(byte* buf, uint8 len);
-static char* getMyName(void);
+char* getMyName(void);
 static uint8 strStartWith(uint8* str1, uint8* str2);
+uint8 strEqual(char* str1, char* str2);
 static void sendReportNamesMsg(void);
 static void processReportNames(afIncomingMSGPacket_t *inMsg);
 static void processLightOn(afIncomingMSGPacket_t *inMsg);

@@ -135,6 +135,9 @@ void InitBoard( uint8 level )
   {
     /* Initialize Key stuff */
     OnboardKeyIntEnable = HAL_KEY_INTERRUPT_DISABLE;
+    
+    
+   // OnboardKeyIntEnable = HAL_KEY_INTERRUPT_ENABLE;
     HalKeyConfig( OnboardKeyIntEnable, OnBoard_KeyCallback);
   }
 }

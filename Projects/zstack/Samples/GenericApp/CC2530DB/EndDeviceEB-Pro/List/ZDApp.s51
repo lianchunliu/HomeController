@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        02/Dec/2013  17:24:42 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        14/Oct/2017  22:53:13 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -9,19 +9,14 @@
 //    Calling convention =  xdata reentrant                                   /
 //    Constant location  =  data_rom                                          /
 //    Dptr setup         =  1,16                                              /
-//    Source file        =  E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓ /
-//                          ÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Components\stack\zdo /
-//                          \ZDApp.c                                          /
-//    Command line       =  -f "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                           /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\Tools\CC2530DB\f8wEndev.cfg"         /
-//                          (-DCPU32MHZ -DROOT=__near_func -DBLINK_LEDS) -f   /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\Tools\CC2530DB\ /
-//                          f8wConfig.cfg" (-DSECURE=0 -DZG_SECURE_DYNAMIC=0  /
-//                          -DREFLECTOR -DDEFAULT_CHANLIST=0x00000800         /
+//    Source file        =  C:\HomeController\Components\stack\zdo\ZDApp.c    /
+//    Command line       =  -f C:\HomeController\Projects\zstack\Samples\Gene /
+//                          ricApp\CC2530DB\..\..\..\Tools\CC2530DB\f8wEndev. /
+//                          cfg (-DCPU32MHZ -DROOT=__near_func -DBLINK_LEDS)  /
+//                          -f C:\HomeController\Projects\zstack\Samples\Gene /
+//                          ricApp\CC2530DB\..\..\..\Tools\CC2530DB\f8wConfig /
+//                          .cfg (-DSECURE=0 -DZG_SECURE_DYNAMIC=0            /
+//                          -DREFLECTOR -DDEFAULT_CHANLIST=0x00004000         /
 //                          -DZDAPP_CONFIG_PAN_ID=0xFFFF                      /
 //                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_M /
 //                          ASK=0x007F -DBEACON_REQUEST_DELAY=100             /
@@ -40,109 +35,72 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100)  /
-//                          -DREJOIN_POLL_RATE=440 "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ       /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Components\stack\zdo\ZDApp.c" -D         /
-//                          ZIGBEEPRO -D NWK_AUTO_POLL -D ZTOOL_P1 -D         /
-//                          MT_TASK -D MT_SYS_FUNC -D MT_ZDO_FUNC -D          /
+//                          -DREJOIN_POLL_RATE=440 C:\HomeController\Componen /
+//                          ts\stack\zdo\ZDApp.c -D ZIGBEEPRO -D              /
+//                          NWK_AUTO_POLL -D ZTOOL_P1 -D MT_TASK -D           /
+//                          MT_SYS_FUNC -D MT_ZDO_FUNC -D                     /
 //                          LCD_SUPPORTED=DEBUG -D xPOWER_SAVING -lC          /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\EndDeviceEB-Pro\List\"   /
-//                          -lA "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                          /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\EndDeviceEB-Pro\List\" --diag_suppress        /
-//                          Pe001,Pa010 -o "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ               /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\EndDeviceEB-Pro\Obj\" -e --debug              /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\EndDeviceEB-Pro\List\ -lA            /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\EndDeviceEB-Pro\List\                /
+//                          --diag_suppress Pe001,Pa010 -o                    /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\EndDeviceEB-Pro\Obj\ -e --debug      /
 //                          --core=plain --dptr=16,1 --data_model=large       /
 //                          --code_model=banked --calling_convention=xdata_re /
 //                          entrant --place_constants=data_rom                /
-//                          --nr_virtual_regs 16 -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ      /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                     /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\SOURCE\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ           /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\ZMAIN\TI2530DB\" -I                  /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\MT\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                    /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\HAL\INCLUDE\" -I    /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\HAL\TARGET\CC2530EB\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ   /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\OSAL\MCU\CCSOC\"    /
-//                          -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                           /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\OSAL\INCLUDE\" -I   /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\STACK\AF\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ              /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\STACK\NWK\" -I      /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\STACK\SEC\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ             /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\STACK\SAPI\" -I     /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\STACK\SYS\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ             /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\STACK\ZDO\" -I      /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\ZMAC\F8W\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ              /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\ZMAC\" -I           /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\SERVICES\SADDR\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ        /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\SERVICES\SDATA\"    /
-//                          -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                           /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\MAC\INCLUDE\" -I    /
-//                          "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ù /
-//                          ÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Sam /
-//                          ples\GenericApp\CC2530DB\..\..\..\..\..\COMPONENT /
-//                          S\MAC\HIGH_LEVEL\" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ        /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\MAC\LOW_LEVEL\srf04 /
-//                          \" -I "E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ                        /
-//                          zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ /
-//                          ØÖÆLEDµÆ\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\..\..\COMPONENTS\MAC\LOW_LEVEL\srf04 /
-//                          \SINGLE_CHIP\" -Ohz --require_prototypes          /
-//    List file          =  E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓ /
-//                          ÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Projects\zstack\Samp /
-//                          les\GenericApp\CC2530DB\EndDeviceEB-Pro\List\ZDAp /
-//                          p.s51                                             /
+//                          --nr_virtual_regs 16 -I                           /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\ -I C:\HomeController\Projects\zstac /
+//                          k\Samples\GenericApp\CC2530DB\..\SOURCE\ -I       /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\ZMAIN\TI2530DB\ -I          /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\..\..\COMPONENTS\MT\ -I     /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\..\..\COMPONENTS\HAL\INCLUD /
+//                          E\ -I C:\HomeController\Projects\zstack\Samples\G /
+//                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\HAL\ /
+//                          TARGET\CC2530EB\ -I C:\HomeController\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\OSAL\MCU\CCSOC\ -I                      /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\..\..\COMPONENTS\OSAL\INCLU /
+//                          DE\ -I C:\HomeController\Projects\zstack\Samples\ /
+//                          GenericApp\CC2530DB\..\..\..\..\..\COMPONENTS\STA /
+//                          CK\AF\ -I C:\HomeController\Projects\zstack\Sampl /
+//                          es\GenericApp\CC2530DB\..\..\..\..\..\COMPONENTS\ /
+//                          STACK\NWK\ -I C:\HomeController\Projects\zstack\S /
+//                          amples\GenericApp\CC2530DB\..\..\..\..\..\COMPONE /
+//                          NTS\STACK\SEC\ -I C:\HomeController\Projects\zsta /
+//                          ck\Samples\GenericApp\CC2530DB\..\..\..\..\..\COM /
+//                          PONENTS\STACK\SAPI\ -I C:\HomeController\Projects /
+//                          \zstack\Samples\GenericApp\CC2530DB\..\..\..\..\. /
+//                          .\COMPONENTS\STACK\SYS\ -I                        /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\..\..\COMPONENTS\STACK\ZDO\ /
+//                           -I C:\HomeController\Projects\zstack\Samples\Gen /
+//                          ericApp\CC2530DB\..\..\..\..\..\COMPONENTS\ZMAC\F /
+//                          8W\ -I C:\HomeController\Projects\zstack\Samples\ /
+//                          GenericApp\CC2530DB\..\..\..\..\..\COMPONENTS\ZMA /
+//                          C\ -I C:\HomeController\Projects\zstack\Samples\G /
+//                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\SERV /
+//                          ICES\SADDR\ -I C:\HomeController\Projects\zstack\ /
+//                          Samples\GenericApp\CC2530DB\..\..\..\..\..\COMPON /
+//                          ENTS\SERVICES\SDATA\ -I                           /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\..\..\COMPONENTS\MAC\INCLUD /
+//                          E\ -I C:\HomeController\Projects\zstack\Samples\G /
+//                          enericApp\CC2530DB\..\..\..\..\..\COMPONENTS\MAC\ /
+//                          HIGH_LEVEL\ -I C:\HomeController\Projects\zstack\ /
+//                          Samples\GenericApp\CC2530DB\..\..\..\..\..\COMPON /
+//                          ENTS\MAC\LOW_LEVEL\srf04\ -I                      /
+//                          C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\..\..\..\..\..\COMPONENTS\MAC\LOW_LE /
+//                          VEL\srf04\SINGLE_CHIP\ -Ohz --require_prototypes  /
+//    List file          =  C:\HomeController\Projects\zstack\Samples\Generic /
+//                          App\CC2530DB\EndDeviceEB-Pro\List\ZDApp.s51       /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -307,11 +265,8 @@
         PUBLIC MatchRsps
         PUBWEAK WDCTL
         PUBLIC ZDAppCheckForHoldKey
-        FUNCTION ZDAppCheckForHoldKey,021203H
-        ARGFRAME XSTACK, 9, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        LOCFRAME ISTACK, 2, STACK
+        FUNCTION ZDAppCheckForHoldKey,0203H
+        ARGFRAME XSTACK, 0, STACK
         PUBLIC ZDAppDetermineDeviceType
         FUNCTION ZDAppDetermineDeviceType,021203H
         ARGFRAME XSTACK, 12, STACK
@@ -774,7 +729,6 @@ sAddrExtCpy         SYMBOL "sAddrExtCpy"
 osal_memset         SYMBOL "osal_memset"
 osal_nv_item_init   SYMBOL "osal_nv_item_init"
 osal_nv_read        SYMBOL "osal_nv_read"
-HalKeyRead          SYMBOL "HalKeyRead"
 ZDP_IncomingData    SYMBOL "ZDP_IncomingData"
 NLME_JoinRequest    SYMBOL "NLME_JoinRequest"
 ZMacSetReq          SYMBOL "ZMacSetReq"
@@ -808,7 +762,6 @@ nwk_getNetworkDesc  SYMBOL "nwk_getNetworkDesc"
 APSME_HoldDataRequests SYMBOL "APSME_HoldDataRequests"
 ZDP_DeviceAnnce     SYMBOL "ZDP_DeviceAnnce"
 ??APSME_HoldDataRequests?relay SYMBOL "?relay", APSME_HoldDataRequests
-??HalKeyRead?relay  SYMBOL "?relay", HalKeyRead
 ??HalLedBlink?relay SYMBOL "?relay", HalLedBlink
 ??HalLedSet?relay   SYMBOL "?relay", HalLedSet
 ??NLME_GetCoordShortAddr?relay SYMBOL "?relay", NLME_GetCoordShortAddr
@@ -1187,13 +1140,6 @@ ZDO_UpdateDeviceIndication SYMBOL "ZDO_UpdateDeviceIndication"
         ARGFRAME XSTACK, 37, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalKeyRead
-        FUNCTION HalKeyRead,0202H
-        ARGFRAME ISTACK, 2, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 0, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
         EXTERN ZDP_IncomingData
         FUNCTION ZDP_IncomingData,0202H
         ARGFRAME ISTACK, 0, STACK
@@ -1420,8 +1366,6 @@ ZDO_UpdateDeviceIndication SYMBOL "ZDO_UpdateDeviceIndication"
         ARGFRAME DOVERLAY, 0, STATIC
         EXTERN ??APSME_HoldDataRequests?relay
         FUNCTION ??APSME_HoldDataRequests?relay,00H
-        EXTERN ??HalKeyRead?relay
-        FUNCTION ??HalKeyRead?relay,00H
         EXTERN ??HalLedBlink?relay
         FUNCTION ??HalLedBlink?relay,00H
         EXTERN ??HalLedSet?relay
@@ -1554,7 +1498,7 @@ ZDO_UpdateDeviceIndication SYMBOL "ZDO_UpdateDeviceIndication"
         EXTERN zgDeviceLogicalType
         EXTERN zgStackProfile
 
-// E:\ZigbeeÎÄ¼þ\µÚ5ÕÂ zigbeeÐ­ÒéÕ»Ó¦ÓÃÓë×éÍø\15.»ùÓÚGenericApp´®¿ÚÎÞÏß¿ØÖÆLEDµÆ\Components\stack\zdo\ZDApp.c
+// C:\HomeController\Components\stack\zdo\ZDApp.c
 //    1 /**************************************************************************************************
 //    2   Filename:       ZDApp.c
 //    3   Revised:        $Date: 2010-01-04 12:16:55 -0800 (Mon, 04 Jan 2010) $
@@ -1969,17 +1913,6 @@ ZDApp_Init:
         ARGFRAME XSTACK, 9, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL ZDApp_Init, ZDAppCheckForHoldKey
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 9, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 9, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
         FUNCALL ZDApp_Init, ZDO_Init
         LOCFRAME ISTACK, 0, STACK
         LOCFRAME PSTACK, 0, STACK
@@ -2085,8 +2018,6 @@ ZDApp_Init:
 //  256 
 //  257   // Check for manual "Hold Auto Start"
 //  258   ZDAppCheckForHoldKey();
-        ; Setup parameters for call to function ZDAppCheckForHoldKey
-        LCALL   ??ZDAppCheckForHoldKey?relay
 //  259 
 //  260   // Initialize ZDO items and setup the device - type of device to create.
 //  261   ZDO_Init();
@@ -3022,9 +2953,9 @@ ZDOInitDevice:
 //  585   // Get Keypad directly to see if a reset nv is needed.
 //  586   // Hold down the SW_BYPASS_NV key (defined in OnBoard.h)
 //  587   // while booting to skip past NV Restore.
-//  588   if ( HalKeyRead() == SW_BYPASS_NV )
-//  589     networkStateNV = ZDO_INITDEV_NEW_NETWORK_STATE;
-//  590   else
+//  588  // if ( HalKeyRead() == SW_BYPASS_NV )
+//  589  //   networkStateNV = ZDO_INITDEV_NEW_NETWORK_STATE;
+//  590  // else
 //  591   {
 //  592     // Determine if NV should be restored
 //  593     networkStateNV = ZDApp_ReadNetworkRestoreState();
@@ -4146,10 +4077,10 @@ ZDApp_InitUserDesc:
 //  906   osal_memset( &ZDO_DefaultUserDescriptor, 0, sizeof( UserDescriptorFormat_t ) );
         ; Setup parameters for call to function osal_memset
         MOV     R4,#0x11
-        LCALL   ?Subroutine20 & 0xFFFF
+        LCALL   ?Subroutine21 & 0xFFFF
 //  907   if ( ZSUCCESS == osal_nv_item_init( ZCD_NV_USERDESC,
 //  908          sizeof(UserDescriptorFormat_t), (void*)&ZDO_DefaultUserDescriptor ) )
-??CrossCallReturnLabel_18:
+??CrossCallReturnLabel_20:
         LCALL   ?PUSH_XSTACK_I_TWO
         CFI CFA_XSP16 add(XSP16, 29)
         MOV     R4,#0x11
@@ -4222,46 +4153,20 @@ ZDAppCheckForHoldKey:
         CFI Function ZDAppCheckForHoldKey
         CODE
 //  931 {
-        FUNCALL ZDAppCheckForHoldKey, HalKeyRead
-        LOCFRAME ISTACK, 2, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 0, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 2, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 0, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        PUSH    DPL
-        CFI DPL0 Frame(CFA_SP, 4)
-        CFI CFA_SP SP+-4
-        PUSH    DPH
-        CFI DPH0 Frame(CFA_SP, 5)
-        CFI CFA_SP SP+-5
-        ; Saved register size: 2
+        ; Saved register size: 0
         ; Auto size: 0
 //  932 #if (defined HAL_KEY) && (HAL_KEY == TRUE)
 //  933   // Get Keypad directly to see if a HOLD_START is needed.
 //  934   // Hold down the SW_BYPASS_START key (see OnBoard.h)
 //  935   // while booting to avoid starting up the device.
-//  936   if ( HalKeyRead () == SW_BYPASS_START)
-        ; Setup parameters for call to function HalKeyRead
-        LCALL   ??HalKeyRead?relay
-        MOV     A,R1
-        XRL     A,#0x1
-        JNZ     ??ZDAppCheckForHoldKey_0
-//  937   {
+//  936  // if ( HalKeyRead () == SW_BYPASS_START)
+//  937  // {
 //  938     // Change the device state to HOLD on start up
-//  939     devState = DEV_HOLD;
-        MOV     DPTR,#devState
-        CLR     A
-        MOVX    @DPTR,A
-//  940   }
+//  939  //   devState = DEV_HOLD;
+//  940  // }
 //  941 #endif // HAL_KEY
 //  942 }
-??ZDAppCheckForHoldKey_0:
-        LJMP    ?Subroutine2 & 0xFFFF
+        LJMP    ?BRET
         CFI EndBlock cfiBlock33
 //  943 
 //  944 /*********************************************************************
@@ -4719,7 +4624,7 @@ ZDApp_ProcessOSALMsg:
 // 1012           else if ( devStartMode == MODE_REJOIN )
 ??ZDApp_ProcessOSALMsg_8:
         XRL     A,#0x3
-        JNZ     ??CrossCallReturnLabel_20
+        JNZ     ??CrossCallReturnLabel_14
 // 1013           {
 // 1014             devState = DEV_NWK_REJOIN;
         MOV     DPTR,#devState
@@ -4817,18 +4722,18 @@ ZDApp_ProcessOSALMsg:
         LCALL   ??NLME_ReJoinRequest?relay
 ??ZDApp_ProcessOSALMsg_9:
         MOV     A,R1
-        JZ      ??CrossCallReturnLabel_20
+        JZ      ??CrossCallReturnLabel_14
 // 1039             {
 // 1040               ZDApp_NetworkInit( (uint16)(NWK_START_DELAY
 // 1041                   + ((uint16)(osal_rand()& EXTENDED_JOINING_RANDOM_MASK))) );
         ; Setup parameters for call to function ZDApp_NetworkInit
         ; Setup parameters for call to function osal_rand
-        LCALL   ?Subroutine21 & 0xFFFF
+        LCALL   ?Subroutine17 & 0xFFFF
 // 1042             }
 // 1043           }
 // 1044   
 // 1045           if ( ZDO_Config_Node_Descriptor.CapabilityFlags & CAPINFO_RCVR_ON_IDLE )
-??CrossCallReturnLabel_20:
+??CrossCallReturnLabel_14:
         MOV     DPTR,#ZDO_Config_Node_Descriptor + 2
         MOVX    A,@DPTR
         MOV     C,0xE0 /* A   */.3
@@ -4837,7 +4742,7 @@ ZDApp_ProcessOSALMsg:
 // 1047             // The receiver is on, turn network layer polling off.
 // 1048             NLME_SetPollRate( 0 );
         ; Setup parameters for call to function NLME_SetPollRate
-        LCALL   ?Subroutine19 & 0xFFFF
+        LCALL   ?Subroutine20 & 0xFFFF
 // 1049             NLME_SetQueuedPollRate( 0 );
 // 1050             NLME_SetResponseRate( 0 );
 // 1051           }
@@ -4850,7 +4755,7 @@ ZDApp_ProcessOSALMsg:
 // 1058             }
 // 1059           }
 // 1060         }
-??CrossCallReturnLabel_16:
+??CrossCallReturnLabel_18:
         SJMP    ??ZDApp_ProcessOSALMsg_5
 // 1061         else
 // 1062         {
@@ -5101,7 +5006,7 @@ ZDApp_ProcessMsgCBs:
         MOV     A,#-0x15
         LCALL   ?ALLOC_XSTACK8
         CFI CFA_XSP16 add(XSP16, 31)
-        LCALL   ?Subroutine18 & 0xFFFF
+        LCALL   ?Subroutine19 & 0xFFFF
 // 1115   switch ( inMsg->clusterID )
 ??CrossCallReturnLabel_43:
         MOV     ?V0 + 0,A
@@ -6087,8 +5992,8 @@ ZDApp_ProcessNetworkJoin:
 // 1386     }
 // 1387   }
 ??ZDApp_ProcessNetworkJoin_15:
-        LCALL   ?Subroutine21 & 0xFFFF
-??CrossCallReturnLabel_21:
+        LCALL   ?Subroutine17 & 0xFFFF
+??CrossCallReturnLabel_15:
         SJMP    ??CrossCallReturnLabel_27
 // 1388   else if ( devState == DEV_NWK_ORPHAN || devState == DEV_NWK_REJOIN )
 ??ZDApp_ProcessNetworkJoin_1:
@@ -6121,12 +6026,12 @@ ZDApp_ProcessNetworkJoin:
         MOV     DPTR,#ZDO_Config_Node_Descriptor + 2
         MOVX    A,@DPTR
         MOV     C,0xE0 /* A   */.3
-        JNC     ??CrossCallReturnLabel_17
+        JNC     ??CrossCallReturnLabel_19
 // 1406       {
 // 1407         // The receiver is on, turn network layer polling off.
 // 1408         NLME_SetPollRate( 0 );
         ; Setup parameters for call to function NLME_SetPollRate
-        LCALL   ?Subroutine19 & 0xFFFF
+        LCALL   ?Subroutine20 & 0xFFFF
 // 1409         NLME_SetQueuedPollRate( 0 );
 // 1410         NLME_SetResponseRate( 0 );
 // 1411       }
@@ -6141,7 +6046,7 @@ ZDApp_ProcessNetworkJoin:
 // 1420       }
 // 1421       
 // 1422       ZDApp_AnnounceNewAddress();
-??CrossCallReturnLabel_17:
+??CrossCallReturnLabel_19:
         ; Setup parameters for call to function ZDApp_AnnounceNewAddress
         LCALL   ??ZDApp_AnnounceNewAddress?relay
         SJMP    ??CrossCallReturnLabel_27
@@ -6257,10 +6162,10 @@ ZDApp_ProcessNetworkJoin:
         CFI EndBlock cfiBlock50
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine21:
+?Subroutine20:
         CFI Block cfiCond51 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_20
+        CFI Conditional ??CrossCallReturnLabel_18
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-15)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-13)))
@@ -6280,7 +6185,7 @@ ZDApp_ProcessNetworkJoin:
         CFI CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond52 Using cfiCommon0
         CFI (cfiCond52) NoFunction
-        CFI (cfiCond52) Conditional ??CrossCallReturnLabel_21
+        CFI (cfiCond52) Conditional ??CrossCallReturnLabel_19
         CFI (cfiCond52) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond52) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond52) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -6296,23 +6201,29 @@ ZDApp_ProcessNetworkJoin:
         CFI Block cfiPicker53 Using cfiCommon1
         CFI (cfiPicker53) NoFunction
         CFI (cfiPicker53) Picker
-        LCALL   ??osal_rand?relay
-        MOV     A,R2
-        ANL     A,#0x7f
-        ADD     A,#0x64
-        MOV     R2,A
+        MOV     R2,#0x0
         MOV     R3,#0x0
-        LCALL   ??ZDApp_NetworkInit?relay
+        LCALL   ??NLME_SetPollRate?relay
+        ; Setup parameters for call to function NLME_SetQueuedPollRate
+        ; Setup parameters for call to function NLME_SetQueuedPollRate
+        MOV     R2,#0x0
+        MOV     R3,#0x0
+        LCALL   ??NLME_SetQueuedPollRate?relay
+        ; Setup parameters for call to function NLME_SetResponseRate
+        ; Setup parameters for call to function NLME_SetResponseRate
+        MOV     R2,#0x0
+        MOV     R3,#0x0
+        LCALL   ??NLME_SetResponseRate?relay
         RET
         CFI EndBlock cfiCond51
         CFI EndBlock cfiCond52
         CFI EndBlock cfiPicker53
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine19:
+?Subroutine17:
         CFI Block cfiCond54 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_16
+        CFI Conditional ??CrossCallReturnLabel_14
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-15)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-13)))
@@ -6332,7 +6243,7 @@ ZDApp_ProcessNetworkJoin:
         CFI CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond55 Using cfiCommon0
         CFI (cfiCond55) NoFunction
-        CFI (cfiCond55) Conditional ??CrossCallReturnLabel_17
+        CFI (cfiCond55) Conditional ??CrossCallReturnLabel_15
         CFI (cfiCond55) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond55) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond55) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -6348,19 +6259,13 @@ ZDApp_ProcessNetworkJoin:
         CFI Block cfiPicker56 Using cfiCommon1
         CFI (cfiPicker56) NoFunction
         CFI (cfiPicker56) Picker
-        MOV     R2,#0x0
+        LCALL   ??osal_rand?relay
+        MOV     A,R2
+        ANL     A,#0x7f
+        ADD     A,#0x64
+        MOV     R2,A
         MOV     R3,#0x0
-        LCALL   ??NLME_SetPollRate?relay
-        ; Setup parameters for call to function NLME_SetQueuedPollRate
-        ; Setup parameters for call to function NLME_SetQueuedPollRate
-        MOV     R2,#0x0
-        MOV     R3,#0x0
-        LCALL   ??NLME_SetQueuedPollRate?relay
-        ; Setup parameters for call to function NLME_SetResponseRate
-        ; Setup parameters for call to function NLME_SetResponseRate
-        MOV     R2,#0x0
-        MOV     R3,#0x0
-        LCALL   ??NLME_SetResponseRate?relay
+        LCALL   ??ZDApp_NetworkInit?relay
         RET
         CFI EndBlock cfiCond54
         CFI EndBlock cfiCond55
@@ -6776,10 +6681,10 @@ ZDApp_ResetNwkKey:
 // 1505   osal_memset( &keyItems, 0, sizeof( nwkActiveKeyItems ) );
         ; Setup parameters for call to function osal_memset
         MOV     R4,#0x15
-        LCALL   ?Subroutine20 & 0xFFFF
+        LCALL   ?Subroutine21 & 0xFFFF
 // 1506   osal_nv_write( ZCD_NV_NWKKEY, 0, sizeof( nwkActiveKeyItems ),
 // 1507                 (void *)&keyItems );
-??CrossCallReturnLabel_19:
+??CrossCallReturnLabel_21:
         LCALL   ?PUSH_XSTACK_I_TWO
         CFI CFA_XSP16 add(XSP16, 33)
         MOV     ?V0 + 0,#0x15
@@ -6796,10 +6701,10 @@ ZDApp_ResetNwkKey:
         CFI EndBlock cfiBlock73
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine20:
+?Subroutine21:
         CFI Block cfiCond74 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_18
+        CFI Conditional ??CrossCallReturnLabel_20
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -6814,7 +6719,7 @@ ZDApp_ResetNwkKey:
         CFI CFA_XSP16 add(XSP16, 27)
         CFI Block cfiCond75 Using cfiCommon0
         CFI (cfiCond75) NoFunction
-        CFI (cfiCond75) Conditional ??CrossCallReturnLabel_19
+        CFI (cfiCond75) Conditional ??CrossCallReturnLabel_21
         CFI (cfiCond75) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond75) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond75) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -9174,14 +9079,14 @@ ZDO_LeaveCnf:
         LCALL   ??sAddrExtCmp?relay
         MOV     A,R1
         XRL     A,#0x1
-        JNZ     ??CrossCallReturnLabel_14
+        JNZ     ??CrossCallReturnLabel_16
 // 2175   {
 // 2176     // Prepare to leave with reset
 // 2177     ZDApp_LeaveReset( cnf->rejoin );
         ; Setup parameters for call to function ZDApp_LeaveReset
         MOV     A,R6
         ADD     A,#0xb
-        LCALL   ?Subroutine17 & 0xFFFF
+        LCALL   ?Subroutine18 & 0xFFFF
 // 2178   }
 // 2179   else if ( ZSTACK_ROUTER_BUILD )
 // 2180   {
@@ -9191,7 +9096,7 @@ ZDO_LeaveCnf:
 // 2184                        cnf->removeChildren );
 // 2185   }
 // 2186 }
-??CrossCallReturnLabel_14:
+??CrossCallReturnLabel_16:
         LJMP    ??Subroutine30_0 & 0xFFFF
         CFI EndBlock cfiBlock118
 // 2187 
@@ -9293,9 +9198,9 @@ ZDO_LeaveInd:
         ; Setup parameters for call to function ZDApp_LeaveReset
         MOV     A,R6
         ADD     A,#0xc
-        LCALL   ?Subroutine17 & 0xFFFF
+        LCALL   ?Subroutine18 & 0xFFFF
 // 2219   }
-??CrossCallReturnLabel_15:
+??CrossCallReturnLabel_17:
         SJMP    ??ZDO_LeaveInd_2
 // 2220   else
 // 2221   {
@@ -9364,10 +9269,10 @@ ZDO_LeaveInd:
         CFI EndBlock cfiBlock119
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine17:
+?Subroutine18:
         CFI Block cfiCond120 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_14
+        CFI Conditional ??CrossCallReturnLabel_16
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-8)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-7)))
@@ -9381,7 +9286,7 @@ ZDO_LeaveInd:
         CFI CFA_XSP16 add(XSP16, 9)
         CFI Block cfiCond121 Using cfiCommon0
         CFI (cfiCond121) NoFunction
-        CFI (cfiCond121) Conditional ??CrossCallReturnLabel_15
+        CFI (cfiCond121) Conditional ??CrossCallReturnLabel_17
         CFI (cfiCond121) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond121) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond121) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -9689,7 +9594,7 @@ ZDApp_InMsgCB:
         CFI CFA_XSP16 add(XSP16, 10)
         ; Saved register size: 10
         ; Auto size: 0
-        LCALL   ?Subroutine18 & 0xFFFF
+        LCALL   ?Subroutine19 & 0xFFFF
 // 2384   if ( inMsg->clusterID & ZDO_RESPONSE_BIT )
 ??CrossCallReturnLabel_44:
         MOV     R0,A
@@ -9765,7 +9670,7 @@ ZDApp_InMsgCB:
         CFI EndBlock cfiBlock128
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine18:
+?Subroutine19:
         CFI Block cfiCond129 Using cfiCommon0
         CFI NoFunction
         CFI Conditional ??CrossCallReturnLabel_43
@@ -11254,7 +11159,7 @@ __Constant_3e8:
 // 2644 /*********************************************************************
 // 2645 *********************************************************************/
 // 
-// 3 909 bytes in segment BANKED_CODE
+// 3 889 bytes in segment BANKED_CODE
 //   342 bytes in segment BANK_RELAYS
 //     2 bytes in segment SFR_AN
 //    11 bytes in segment XDATA_I
@@ -11262,7 +11167,7 @@ __Constant_3e8:
 //     8 bytes in segment XDATA_ROM_C
 //    43 bytes in segment XDATA_Z
 // 
-// 4 262 bytes of CODE  memory
+// 4 242 bytes of CODE  memory
 //     0 bytes of CONST memory (+ 8 bytes shared)
 //     0 bytes of DATA  memory (+ 2 bytes shared)
 //    54 bytes of XDATA memory

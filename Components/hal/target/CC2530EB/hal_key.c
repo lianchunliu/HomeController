@@ -89,6 +89,9 @@
 #include "hal_key.h"
 #include "osal.h"
 
+#include "user_printf.h"
+#include "GenericApp.h"
+
 #if (defined HAL_KEY) && (HAL_KEY == TRUE)
 
 /**************************************************************************************************
@@ -182,8 +185,25 @@ void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
   /* Determine if interrupt is enable or not */
   if (Hal_KeyIntEnable)
   {
-    /* Rising/Falling edge configuratinn */
+    printf("INT keys\n");
     
+    /* Rising/Falling edge configuratinn */    
+    
+    /*
+    P0INP  &= ~0X10;
+    P0IEN |= 0x10;    // P0.4 设置为中断方式 1：中断使能
+    PICTL |= 0x10;    //下降沿触发   
+    IEN1 |= 0x20;    //允许P0口中断; 
+    P0IFG |= 0x00;    //初始化中断标志位
+   // EA = 1;          //打开总中断
+    */
+    P0INP  &= ~0X10;   //设置P0口输入电路模式为上拉/ 下拉
+        P0IEN |= 0X10;     //P01设置为中断方式 
+        PICTL |= 0X10;     // 下降沿触发     
+   IEN1 |= 0X20;      //  开P0口总中断 
+        P0IFG |= 0x00;     //清中断标志
+	EA = 1; 
+        
     /* Do this only after the hal_key is configured - to work with sleep stuff */
     if (HalKeyConfigured == TRUE)
     {
@@ -201,10 +221,17 @@ void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
     P0DIR &= ~0x20;     //按键接在P0.5口上，设P0.5为输入模式 
     P0INP &= ~0x20;     //打开P0.5上拉电阻
     
-    P0SEL &= ~0x40;     //设置P0.6为普通IO口  
-    P0DIR &= ~0x40;     //按键接在P0.6口上，设P0.6为输入模式 
-    P0INP &= ~0x40;     //P0.6 
-   
+    if (strEqual("AirCond", getMyName())) {
+      P0SEL &= ~0x40;     //设置P0.6为普通IO口  
+      P0DIR &= ~0x40;     //按键接在P0.6口上，设P0.6为输入模式 
+      P0INP |= 0x40;     //P0.6 
+    
+    } else {    
+      P0SEL &= ~0x40;     //设置P0.6为普通IO口  
+      P0DIR &= ~0x40;     //按键接在P0.6口上，设P0.6为输入模式 
+      P0INP &= ~0x40;     //P0.6 
+    }
+    
     P0SEL &= ~0x80;     //设置P0.7为普通IO口  
     P0DIR &= ~0x80;     //按键接在P0.7口上，设P0.7为输入模式 
     P0INP &= ~0x80;     //P0.7 
@@ -292,7 +319,7 @@ void HalKeyPoll (void)
 {
   uint8 keys = HalKeyRead();
   
-  if (!Hal_KeyIntEnable)
+ // if (!Hal_KeyIntEnable)
   {
     if (keys == mySavedKeys)
     {
@@ -303,11 +330,7 @@ void HalKeyPoll (void)
     halKeySavedKeys = diffKeys(mySavedKeys, keys);
     mySavedKeys = keys;
   }
-  else
-  {
-    /* Key interrupt handled here */
-  }
-
+ 
   /* Invoke Callback if new keys were depressed */
   if (keys && (pHalKeyProcessFunction))
   {
@@ -330,7 +353,8 @@ void HalKeyPoll (void)
  **************************************************************************************************/
 void halProcessKeyInterrupt (void)
 {
-  bool valid=FALSE;
+  bool valid=TRUE;
+  
 
   if (valid)
   {
@@ -369,7 +393,7 @@ uint8 HalKeyExitSleep ( void )
 /***************************************************************************************************
  *                                    INTERRUPT SERVICE ROUTINE
  ***************************************************************************************************/
-
+void SysPowerMode(uint8 mode);
 /**************************************************************************************************
  * @fn      halKeyPort0Isr
  *
@@ -381,7 +405,16 @@ uint8 HalKeyExitSleep ( void )
  **************************************************************************************************/
 HAL_ISR_FUNCTION( halKeyPort0Isr, P0INT_VECTOR )
 {
-  HAL_KEY_CPU_PORT_0_IF = 0;
+  
+  printf("hal isr key\n");
+  
+  halProcessKeyInterrupt();
+  
+  SysPowerMode(4);
+  
+  P0IFG = 0;       //清中断标志 
+  P0IF = 0;        //清中断标志  
+    
 }
 
 

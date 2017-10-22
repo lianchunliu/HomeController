@@ -22,7 +22,7 @@
   its documentation for any purpose.
 
   YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
-  PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+  PROVIDED “AS IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
   INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
   NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
   TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
@@ -47,6 +47,7 @@
 #include "hal_led.h"
 #include "osal.h"
 #include "hal_board.h"
+#include "user_printf.h"
 
 /***************************************************************************************************
  *                                             CONSTANTS
@@ -247,11 +248,13 @@ void HalLedBlink (uint8 leds, uint8 numBlinks, uint8 percent, uint16 period)
     }
     else
     {
+      printf("set led on\n");
       HalLedSet (leds, HAL_LED_MODE_ON);                    /* >= 100%, turn on */
     }
   }
   else
   {
+    printf("set led off\n");
     HalLedSet (leds, HAL_LED_MODE_OFF);                     /* No on time, turn off */
   }
 #elif (HAL_LED == TRUE)
